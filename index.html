@@ -7,64 +7,100 @@
 <title>DSE 數學自主練習｜iPad 手寫練習</title>
 <style>
 :root{--ink:#19233c;--muted:#61708a;--blue:#3559d7;--bglight:#f2f5fc;--edge:#dce3f1;--green:#097c55;--red:#c24141}
-*{box-sizing:border-box} html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:system-ui,-apple-system,"PingFang HK","Microsoft JhengHei",sans-serif;background:var(--bglight)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #9ac8ff;outline-offset:2px}
-header{background:#243a83;color:white;padding:16px max(20px,calc((100% - 1320px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.brand{font-weight:850;font-size:22px;letter-spacing:.3px}.brand small{display:block;opacity:.75;font-size:12px;font-weight:500;margin-top:3px}.header-summary{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-weight:650;font-size:14px}.header-summary span{background:#ffffff22;border:1px solid #ffffff22;border-radius:20px;padding:6px 12px}
-main{max-width:1360px;margin:0 auto;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}.left-col,.right-col{min-width:0}
-.card{background:white;border:1px solid var(--edge);box-shadow:0 4px 24px #19326d09;border-radius:16px;margin-bottom:17px;padding:19px}.card h2{margin:0 0 14px;font-size:17px}.eyebrow{font-weight:750;letter-spacing:.6px;color:var(--blue);font-size:12px}.muted{color:var(--muted);font-size:13px;line-height:1.6}
-.setup{display:flex;align-items:end;gap:14px;flex-wrap:wrap}.setup label{display:flex;flex-direction:column;gap:8px;font-weight:700;font-size:14px;flex:1;min-width:230px}
-select,input[type=text],input[type=number],textarea{border-radius:9px;padding:11px 12px;border:1px solid #bfcbe0;background:white;color:var(--ink);width:100%}textarea{min-height:85px;resize:vertical}
-.btn{border:1px solid var(--edge);border-radius:10px;background:white;color:var(--ink);font-weight:730;padding:10px 14px;min-height:42px}.btn:hover{background:#f6f8fc}.btn.primary{border-color:var(--blue);background:var(--blue);color:white}.btn.primary:hover{background:#2748bb}.btn.green{background:#108562;color:white;border-color:#108562}.btn.outline{color:var(--blue);border-color:#9fb3ef}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.wide{width:100%}
-.pills{display:flex;gap:7px;flex-wrap:wrap}.pill{border-radius:20px;padding:5px 10px;background:#edf2ff;color:#3f54a2;font-weight:750;font-size:12px}
-.title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:13px}.title-row h2{margin:0}.statusbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.sheet{position:relative;border:1px solid #d9e1f1;border-radius:12px;background:white;overflow:hidden;isolation:isolate}
-.question-content{padding:22px 24px 6px;position:relative;z-index:0;font-family:"Times New Roman","PingFang HK","Microsoft JhengHei",serif;font-size:19px;line-height:1.95;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}.question-content p{margin:7px 0}.question-main{margin-bottom:14px;font-weight:560}.part{display:flex;gap:10px;align-items:baseline;margin:11px 0}.partlabel{font-weight:750;white-space:nowrap}.geom-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,240px);gap:14px;align-items:start}
-.svg-area svg,.question-content svg{width:100%;height:auto;max-height:320px}.shape-line{stroke:black;stroke-width:1.5;fill:none;stroke-linejoin:round;stroke-linecap:round}.svg-area svg text,.question-content svg text{font-family:"Times New Roman","MingLiU",serif;font-size:12pt;font-style:italic;text-anchor:middle;dominant-baseline:central;fill:black}.svg-area svg text.normal-text{font-style:normal}.svg-area svg text.num-text{font-style:normal}
-.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 4px;font-family:"Times New Roman",serif;line-height:1.15;font-size:.94em}.frac>span:first-child{border-bottom:1px solid black;padding:0 3px}.frac>span:last-child{padding:0 3px}.nowrap-eq{white-space:nowrap;display:inline-block}
-.p2-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 10px}.p2-choice{display:flex;align-items:baseline;gap:9px;padding:8px 12px;border:1px solid #e3e8f3;border-radius:9px;cursor:pointer;font-family:"Times New Roman",serif;background:#fbfcff}.p2-choice b{font-weight:600;min-width:20px}.p2-choice.selected{border-color:#6f91f0;background:#e8efff}.p2-choice:hover{border-color:#8fa7e4}
-.workspace{margin:8px 22px 22px;border:1px dashed #cfd9ed;border-radius:10px;background:repeating-linear-gradient(to bottom,#ffffff,#ffffff 39px,#e8edf6 40px);height:clamp(290px,37vw,480px);position:relative}.workspace-hint{position:absolute;top:8px;left:12px;color:#a2adc0;font:13px system-ui;user-select:none;pointer-events:none}
-/* 書寫模式時防止 Safari 長按選字 / 複製選單 / 拖曳題目，但閱讀模式仍可選字。 */
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{display:flex;flex-direction:column;min-height:0;color:var(--ink);font-family:system-ui,-apple-system,"PingFang HK","Microsoft JhengHei",sans-serif;background:var(--bglight)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #9ac8ff;outline-offset:1px}
+header{flex:0 0 auto;min-height:48px;background:#243a83;color:white;padding:7px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-weight:850;font-size:18px;letter-spacing:.2px;white-space:nowrap}.brand small{display:inline-block;margin-left:9px;opacity:.78;font-size:11px;font-weight:500}
+.header-summary{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;font-weight:650;font-size:12px}.header-summary span{background:#ffffff22;border:1px solid #ffffff22;border-radius:18px;padding:4px 9px;white-space:nowrap}
+.top-controls{flex:0 0 auto;padding:7px 10px 0;display:grid;grid-template-columns:minmax(245px,.82fr) minmax(0,2fr);gap:7px}
+.card{min-width:0;background:white;border:1px solid var(--edge);box-shadow:0 2px 10px #19326d08;border-radius:11px;margin:0;padding:9px 11px}
+.card h2{margin:0 0 8px;font-size:16px}.muted{color:var(--muted);font-size:12px;line-height:1.45}
+.setup{display:flex;align-items:center;gap:7px;min-width:0}.setup label{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:7px;font-weight:750;font-size:13px;flex:1;min-width:0}
+select,input[type=text],input[type=number],textarea{border-radius:8px;padding:7px 9px;border:1px solid #bfcbe0;background:white;color:var(--ink);width:100%;min-width:0;font-size:15px}
+select{height:36px;padding:5px 7px}textarea{min-height:70px;resize:vertical}
+.btn{border:1px solid var(--edge);border-radius:8px;background:white;color:var(--ink);font-weight:730;padding:7px 10px;min-height:34px;font-size:13px;white-space:nowrap}.btn:hover{background:#f6f8fc}.btn.primary{border-color:var(--blue);background:var(--blue);color:white}.btn.primary:hover{background:#2748bb}.btn.green{background:#108562;color:white;border-color:#108562}.btn.outline{color:var(--blue);border-color:#9fb3ef}.btn:disabled{opacity:.45;cursor:not-allowed}
+.controls{padding:6px 8px;display:flex;align-items:center;min-width:0}
+.toolbar{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;white-space:nowrap;min-width:0;width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toolbar::-webkit-scrollbar{display:none}.toolbar .tool{flex:0 0 auto;border-radius:8px;border:1px solid #cfdaef;padding:6px 8px;background:white;font-size:12px;font-weight:700;min-height:32px;line-height:1}.toolbar .tool.active{background:#e9efff;border-color:#607fe2;color:#263eaf}.toolbar .tool.color-active{border:2px solid #476ce3;padding:5px}.color-dot{width:18px;height:18px;border:1px solid #ddd;border-radius:50%;display:block}.separator{flex:0 0 1px;width:1px;height:21px;background:#d4dcec;margin:0 2px}
+.pen-toggle{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:650;color:#52617a;white-space:nowrap;padding:0 4px}.pen-toggle input{width:15px;height:15px;margin:0;accent-color:var(--blue)}
+main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 10px 10px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:9px;overflow:hidden;align-items:stretch}
+.left-col,.right-col{min-width:0;min-height:0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.left-col{display:flex;flex-direction:column}
+.left-col>.question-panel{flex:1 0 auto;min-height:100%;display:flex;flex-direction:column}
+.right-col{display:flex;flex-direction:column;gap:8px}
+.question-panel{padding:10px 11px}
+.title-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}.title-row h2{margin:2px 0 0;font-size:16px}.eyebrow{font-weight:750;letter-spacing:.3px;color:var(--blue);font-size:11px}
+.statusbar{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.pill{border-radius:16px;padding:4px 8px;background:#edf2ff;color:#3f54a2;font-weight:750;font-size:11px;white-space:nowrap}
+.sheet{position:relative;display:flex;flex:1 1 auto;flex-direction:column;min-height:0;border:1px solid #d9e1f1;border-radius:10px;background:white;overflow:hidden;isolation:isolate}
+.question-content{padding:11px 14px 3px;position:relative;z-index:0;font-family:"Times New Roman","PingFang HK","Microsoft JhengHei",serif;font-size:17px;line-height:1.55;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}
+.question-content p{margin:5px 0}.question-main{margin-bottom:7px;font-weight:560}.part{display:flex;gap:8px;align-items:baseline;margin:7px 0}.partlabel{font-weight:750;white-space:nowrap}.geom-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,205px);gap:10px;align-items:start}
+.svg-area svg,.question-content svg{width:100%;height:auto;max-height:280px}.shape-line{stroke:black;stroke-width:1.5;fill:none;stroke-linejoin:round;stroke-linecap:round}.svg-area svg text,.question-content svg text{font-family:"Times New Roman","MingLiU",serif;font-size:12pt;font-style:italic;text-anchor:middle;dominant-baseline:central;fill:black}.svg-area svg text.normal-text{font-style:normal}.svg-area svg text.num-text{font-style:normal}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 3px;font-family:"Times New Roman",serif;line-height:1.1;font-size:.92em}.frac>span:first-child{border-bottom:1px solid black;padding:0 3px}.frac>span:last-child{padding:0 3px}.nowrap-eq{white-space:nowrap;display:inline-block}
+.p2-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0 6px}.p2-choice{display:flex;align-items:baseline;gap:7px;padding:6px 8px;border:1px solid #e3e8f3;border-radius:8px;cursor:pointer;font-family:"Times New Roman",serif;background:#fbfcff;font-size:16px}.p2-choice b{font-weight:600;min-width:18px}.p2-choice.selected{border-color:#6f91f0;background:#e8efff}.p2-choice:hover{border-color:#8fa7e4}
+.workspace{flex:1 1 auto;margin:5px 10px 9px;border:1px dashed #cfd9ed;border-radius:9px;background:repeating-linear-gradient(to bottom,#fff,#fff 33px,#e8edf6 34px);height:auto;min-height:155px;position:relative}
 .sheet.inking,.sheet.inking *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important}
 #inkCanvas,#liveInkCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-#inkCanvas{z-index:2;cursor:crosshair}#inkCanvas.off{pointer-events:none}
-#liveInkCanvas{z-index:3;pointer-events:none}
-
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.toolbar .tool{border-radius:9px;border:1px solid #cfdaef;padding:8px 10px;background:white;font-size:13px;font-weight:700;min-height:39px}.toolbar .tool.active{background:#e9efff;border-color:#607fe2;color:#263eaf}.color-dot{width:21px;height:21px;border:2px solid #ddd;border-radius:50%;display:inline-block;vertical-align:middle}.toolbar .tool.color-active{border:2px solid #476ce3}.separator{width:1px;height:22px;background:#d4dcec;margin:0 3px}
-.answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px}.answer-item label{font-size:14px;font-weight:730;display:block;margin-bottom:7px}.answer-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:15px}.note{font-size:12px;line-height:1.6;color:var(--muted)}
-.result{margin-top:12px;padding:15px;border-radius:12px;border:1px solid #cad6eb;background:#f7f9fe;line-height:1.65}.result.success{background:#eaf8f1;border-color:#a2dcc2;color:#075739}.result.wrong{background:#fff0f0;border-color:#ffc0c0;color:#9a3030}.result.notice{background:#fff8e7;border-color:#ead5a1;color:#80551c}.result h3{font-size:16px;margin:0 0 7px}
-.solution{padding:13px 15px;background:#f8faff;border:1px solid #d7e1f7;border-radius:10px;margin-top:11px;color:#263652}.solution .step{margin:10px 0;border-bottom:1px solid #e3eaf6;padding-bottom:8px}.solution .step:last-child{border:0}.solution b{color:#3452b0}
-.right-col .card{padding:18px}.right-col h2{font-size:16px}.mini{font-size:12px;color:var(--muted)}.kbd{display:inline-block;border:1px solid #ccd5e5;padding:2px 5px;border-radius:4px;background:#f6f8fc;font-family:monospace;font-size:12px}.help li{font-size:13px;line-height:1.6;margin:8px 0;padding-left:3px}.help{padding-left:19px}
-.checkrow{display:flex;align-items:center;gap:8px;font-size:13px;color:#475872;margin-top:12px}.checkrow input{width:18px;height:18px}.stack{display:grid;gap:10px}.progressline{height:8px;border-radius:8px;background:#e8edfa;overflow:hidden;margin:9px 0}.progressfill{height:100%;background:var(--blue);width:0%;transition:width .25s}
-@media(max-width:960px){main{grid-template-columns:1fr}.right-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}.right-col .card{margin:0}}
-@media(max-width:670px){main{padding:10px;gap:10px}.card{padding:14px;margin-bottom:10px;border-radius:12px}header{padding:14px 15px}.brand{font-size:18px}.question-content{font-size:16px;padding:14px 13px 3px}.p2-choice-grid{grid-template-columns:1fr}.geom-wrap{grid-template-columns:1fr}.svg-area{max-width:300px}.workspace{margin:8px 12px 14px;height:350px}.right-col{display:block}.right-col .card{margin-bottom:10px}.setup label{min-width:100%}.toolbar{gap:4px}.toolbar .tool{padding:7px;font-size:12px}}
-@media print{header,.setup,.right-col,.toolbar,.answers,.controls,.workspace-hint{display:none!important}main{display:block;margin:0;padding:0}.card{box-shadow:none;border:0}#inkCanvas{display:none}}
+#inkCanvas{z-index:2;cursor:crosshair}#inkCanvas.off{pointer-events:none}#liveInkCanvas{z-index:3;pointer-events:none}
+.answers{display:flex;flex:1 1 auto;flex-direction:column;gap:7px;padding:11px;min-height:0}.answers .title-row{margin:0}.answers .title-row h2{font-size:16px}
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}.answer-grid.inequality-grid{grid-template-columns:minmax(0,1fr)}.answer-item{min-width:0}.answer-item label{font-size:12px;font-weight:750;display:block;margin-bottom:4px}.answer-item input,.answer-item textarea{padding:7px 8px;min-height:36px;font-size:16px}.answer-item textarea{min-height:76px}
+.answer-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:2px 0 0}.answer-actions .btn{min-height:36px}
+.symbol-strip{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.symbol-key{min-width:29px;min-height:27px;padding:3px 7px;border-radius:6px;border:1px solid #d6dfef;background:#f8faff;color:#34476d;font-weight:700;font-size:13px}
+.ineq-answer{padding:7px 8px;border:1px solid #dfe6f3;border-radius:9px;background:#fbfcff}.ineq-answer>label{font-size:13px}.ineq-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:5px}.ineq-x{font-weight:800;min-width:13px}.operator-pick{display:flex;gap:3px;flex:0 0 auto}.operator-pick button{min-width:35px;height:32px;padding:3px 6px;border:1px solid #d2dcee;border-radius:7px;background:white;color:#273755;font-weight:800;font-size:16px}.operator-pick button.active{background:#e8efff;border:2px solid #5578de;color:#243eaa;padding:2px 5px}.ineq-row input{flex:1;min-width:52px;max-width:155px;height:33px;padding:5px 7px}.ineq-row .ineq-minus{flex:0 0 29px;min-width:29px;min-height:32px;padding:3px}.ineq-connective{text-align:center;font-weight:800;font-size:12px;color:#667592;padding:2px 0}
+.result{margin-top:2px;padding:9px 10px;border-radius:9px;border:1px solid #cad6eb;background:#f7f9fe;line-height:1.5;font-size:13px}.result.success{background:#eaf8f1;border-color:#a2dcc2;color:#075739}.result.wrong{background:#fff0f0;border-color:#ffc0c0;color:#9a3030}.result.notice{background:#fff8e7;border-color:#ead5a1;color:#80551c}.result h3{font-size:14px;margin:0 0 4px}
+.solution{padding:9px 10px;background:#f8faff;border:1px solid #d7e1f7;border-radius:9px;color:#263652;font-size:13px;line-height:1.5}.solution .step{margin:7px 0;border-bottom:1px solid #e3eaf6;padding-bottom:6px}.solution .step:last-child{border:0}.solution b{color:#3452b0}#solutionBox{max-height:min(42vh,370px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}#solutionBox:not([hidden]){min-height:clamp(145px,30vh,300px)}#solutionBox[hidden]{display:none!important}
+.progress-card{padding:9px 11px}.progress-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.progress-card h2{font-size:13px;margin:0}.progressline{height:6px;border-radius:8px;background:#e8edfa;overflow:hidden;margin:6px 0}.progressfill{height:100%;background:var(--blue);width:0%;transition:width .25s}.mini{font-size:11px;color:var(--muted)}
+@media(max-width:900px){.top-controls{grid-template-columns:1fr;gap:6px}.controls{min-height:43px}}
+@media(max-width:680px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}header{padding:9px 11px}.brand{font-size:16px}.brand small{display:none}.header-summary{font-size:10px}.top-controls{display:flex;flex-direction:column;padding:7px 8px 0}.setup{flex-wrap:wrap}.setup label{min-width:100%}.controls{overflow:hidden}.toolbar{overflow-x:auto}.pen-toggle{font-size:10px}main{display:block;height:auto;max-height:none;overflow:visible;padding:7px 8px}.left-col,.right-col{max-height:none;overflow:visible}.left-col{display:block;margin-bottom:8px}.left-col>.question-panel{min-height:0;display:block}.sheet{display:block;min-height:0}.workspace{height:270px;min-height:270px}.question-content{font-size:16px;padding:10px 11px}.right-col{display:flex}.answer-grid.inequality-grid{grid-template-columns:minmax(0,1fr)}.p2-choice-grid{grid-template-columns:1fr 1fr}.geom-wrap{grid-template-columns:minmax(0,1fr) minmax(100px,155px)}#solutionBox{max-height:420px}}
 </style>
 </head>
 <body>
-<header><div class="brand">✏️ DSE 數學自主練習 <small>選課題 · 手寫演算 · 即時核對 · 同類題追練</small></div><div class="header-summary"><span id="totalBadge">已完成 0 題</span><span id="accuracyBadge">正確率 —</span></div></header>
-<main>
-<div class="left-col">
- <section class="card setup"><label>選擇練習課題<select id="topicSelect">
- <optgroup label="卷二 · 選擇題（自動批改）">
- <option value="p2indices">💡 指數定律 · MC</option><option value="p2var">📈 變分 · MC</option><option value="p2scale">🗺️ 比例尺 · MC</option><option value="p2base">🔢 進制 · MC</option><option value="p2poly">🧮 續多項式 · MC</option>
- </optgroup><optgroup label="卷一 · 長題目（部分自動批改，其餘詳解核對）">
- <option value="percent">📊 百分法</option><option value="ineq">🚧 不等式</option><option value="factor">🧮 因式分解</option><option value="poly">📜 續多項式</option><option value="ratio">➗ 代數比例</option><option value="coord">📐 坐標幾何</option><option value="geom">📐 平面幾何與圓</option><option value="var">📈 變分</option><option value="indices">💡 指數定律</option><option value="formula">🔄 主項變換</option><option value="rounding">🔢 近似值</option><option value="error">⚖️ 誤差與度量</option><option value="stat">📊 統計與離差</option><option value="simul">🧩 二元一次方程</option><option value="mens">🧊 求積法</option><option value="locus">🎯 軌跡與圓方程</option><option value="prob">🎲 續概率</option>
- </optgroup></select></label><button class="btn primary" id="startBtn">開始練習 / 更換課題</button></section>
- <section class="card controls"><div class="title-row"><h2>🖊️ 手寫工具</h2><span class="muted">已優化 Apple Pencil 連續手寫；「閱讀」模式可捲動題目及點選答案</span></div>
- <div class="toolbar" id="tools"><button type="button" class="tool" data-tool="off">👆 閱讀／選答案</button><button type="button" class="tool active" data-tool="pen">✏️ 筆</button><button type="button" class="tool" data-tool="highlighter">🟨 螢光筆</button><button type="button" class="tool" data-tool="eraser">◻️ 擦膠</button><span class="separator"></span>
- <button class="tool color-active" data-color="#243858" title="深藍"><span class="color-dot" style="background:#243858"></span></button><button class="tool" data-color="#d13b44" title="紅色"><span class="color-dot" style="background:#d13b44"></span></button><button class="tool" data-color="#1368c5" title="藍色"><span class="color-dot" style="background:#1368c5"></span></button><button class="tool" data-color="#179961" title="綠色"><span class="color-dot" style="background:#179961"></span></button><span class="separator"></span><button type="button" class="tool" id="undoBtn">↶ 復原</button><button type="button" class="tool" id="redoBtn">↷ 重做</button><button type="button" class="tool" id="clearBtn">清除筆跡</button></div>
- <label class="checkrow"><input type="checkbox" id="penOnly">忽略手指落筆，只用 Apple Pencil / 觸控筆（滑鼠仍可測試）</label>
+<header>
+ <div class="brand">✏️ DSE 數學自主練習 <small>選課題 · Apple Pencil 書寫 · 即時核對</small></div>
+ <div class="header-summary"><span id="totalBadge">已完成 0 題</span><span id="accuracyBadge">正確率 —</span></div>
+</header>
+<div class="top-controls">
+ <section class="card setup">
+  <label>課題<select id="topicSelect">
+   <optgroup label="卷二 · 選擇題（自動批改）">
+    <option value="p2indices">💡 指數定律 · MC</option><option value="p2var">📈 變分 · MC</option><option value="p2scale">🗺️ 比例尺 · MC</option><option value="p2base">🔢 進制 · MC</option><option value="p2poly">🧮 續多項式 · MC</option>
+   </optgroup><optgroup label="卷一 · 長題目（部分自動批改，其餘詳解核對）">
+    <option value="percent">📊 百分法</option><option value="ineq">🚧 不等式</option><option value="factor">🧮 因式分解</option><option value="poly">📜 續多項式</option><option value="ratio">➗ 代數比例</option><option value="coord">📐 坐標幾何</option><option value="geom">📐 平面幾何與圓</option><option value="var">📈 變分</option><option value="indices">💡 指數定律</option><option value="formula">🔄 主項變換</option><option value="rounding">🔢 近似值</option><option value="error">⚖️ 誤差與度量</option><option value="stat">📊 統計與離差</option><option value="simul">🧩 二元一次方程</option><option value="mens">🧊 求積法</option><option value="locus">🎯 軌跡與圓方程</option><option value="prob">🎲 續概率</option>
+   </optgroup>
+  </select></label>
+  <button class="btn primary" id="startBtn">開始</button>
  </section>
- <section class="card" id="questionPanel"><div class="title-row"><div><span class="eyebrow" id="topicLabel">DSE 數學練習</span><h2 style="margin-top:4px">第 <span id="questionNum">1</span> 題 <small class="muted" id="marksLabel"></small></h2></div><span class="pill" id="gradingLabel">自動批改</span></div>
- <div id="sheet" class="sheet"><div id="questionContent" class="question-content" aria-live="polite"></div><div class="workspace"><span class="workspace-hint">在這裡用 Apple Pencil 寫算式；也可直接在題目上畫記。</span></div><canvas id="inkCanvas" aria-label="可手寫的透明畫布"></canvas><canvas id="liveInkCanvas" aria-hidden="true"></canvas></div>
+ <section class="card controls">
+  <div class="toolbar" id="tools">
+   <button type="button" class="tool" data-tool="off">👆 閱讀</button><button type="button" class="tool active" data-tool="pen">✏️ 筆</button><button type="button" class="tool" data-tool="highlighter">🟨 Highlight</button><button type="button" class="tool" data-tool="eraser">◻️ 擦膠</button><span class="separator"></span>
+   <button type="button" class="tool color-active" data-color="#243858" title="深藍"><span class="color-dot" style="background:#243858"></span></button><button type="button" class="tool" data-color="#d13b44" title="紅色"><span class="color-dot" style="background:#d13b44"></span></button><button type="button" class="tool" data-color="#1368c5" title="藍色"><span class="color-dot" style="background:#1368c5"></span></button><span class="separator"></span>
+   <button type="button" class="tool" id="undoBtn">↶ 復原</button><button type="button" class="tool" id="redoBtn">↷ 重做</button><button type="button" class="tool" id="clearBtn">清除</button>
+   <label class="pen-toggle" title="忽略手指，避免手掌誤觸"><input type="checkbox" id="penOnly" checked>只用 Pencil</label>
+  </div>
  </section>
- <section class="card answers" id="answerCard"><h2>⌨️ 輸入最後答案</h2><p class="muted" id="answerHelp">請完成手寫演算，然後用鍵盤輸入答案。</p><div class="answer-grid" id="answerInputs"></div><div class="answer-actions"><button type="button" class="btn primary" id="checkBtn">核對答案</button><button type="button" class="btn green" id="nextBtn" hidden>下一題 →</button><button type="button" class="btn outline" id="showStepsBtn">顯示評卷參考</button></div><div id="resultBox" aria-live="polite"></div><div id="solutionBox" hidden></div></section>
 </div>
-<aside class="right-col"><section class="card"><h2>📊 我的練習進度</h2><div id="topicStat" style="font-weight:700">尚未有紀錄</div><div class="progressline"><div id="progressFill" class="progressfill"></div></div><div class="muted" id="progressText">答錯後會再出同一種題型的新題目。</div><button class="btn" id="resetStats" style="margin-top:15px;width:100%">清除練習統計</button></section>
- <section class="card"><h2>💡 使用方法</h2><ol class="help"><li>選擇課題後，閱讀題目並用 Apple Pencil 在畫面上寫算式。</li><li>選「螢光筆」可 Highlight 題目；用「閱讀」模式可點選 MC 答案。</li><li>在下方用鍵盤輸入答案，按「核對答案」。</li><li><b>答對：</b>下一題隨機抽同課題的不同題型；<b>答錯：</b>下一題會維持同一題型，但改變數字。</li></ol><p class="note">卷一部分開放式題目須對照詳解自行核對，避免錯判代數等價答案或證明步驟。頁面不需登入，練習統計只存於本機瀏覽器。</p></section>
- <section class="card"><h2>🧠 數學答案輸入小提示</h2><p class="muted">MC 可輸入 <span class="kbd">A</span>、<span class="kbd">B</span>、<span class="kbd">C</span>、<span class="kbd">D</span>。數值題可輸入 <span class="kbd">12.5</span>、<span class="kbd">$80</span> 或 <span class="kbd">1/4</span>（適用於系統能自動核對的數值題）。</p></section></aside>
+<main>
+ <div class="left-col">
+  <section class="card question-panel" id="questionPanel">
+   <div class="title-row"><div><span class="eyebrow" id="topicLabel">DSE 數學練習</span><h2>第 <span id="questionNum">1</span> 題 <small class="muted" id="marksLabel"></small></h2></div><span class="pill" id="gradingLabel">自動批改</span></div>
+   <div id="sheet" class="sheet"><div id="questionContent" class="question-content" aria-live="polite"></div><div class="workspace"></div><canvas id="inkCanvas" aria-label="可手寫的透明畫布"></canvas><canvas id="liveInkCanvas" aria-hidden="true"></canvas></div>
+  </section>
+ </div>
+ <aside class="right-col">
+  <section class="card answers" id="answerCard">
+   <div class="title-row"><h2>⌨️ 輸入答案</h2><span class="pill" id="answerModeBadge">作答區</span></div>
+   <div id="answerInputs" class="answer-grid"></div>
+   <div class="answer-actions"><button type="button" class="btn primary" id="checkBtn">核對答案</button><button type="button" class="btn green" id="nextBtn" hidden>下一題 →</button><button type="button" class="btn outline" id="showStepsBtn">評卷參考</button></div>
+   <div id="resultBox" aria-live="polite"></div><div id="solutionBox" hidden></div>
+  </section>
+  <section class="card progress-card">
+   <div class="progress-head"><h2>📊 練習進度</h2><button class="btn" id="resetStats" style="min-height:27px;padding:3px 7px;font-size:11px">重設</button></div>
+   <div id="topicStat" style="font-size:12px;font-weight:700;margin-top:5px">尚未有紀錄</div><div class="progressline"><div id="progressFill" class="progressfill"></div></div><div class="mini" id="progressText">答錯後會再出同一種題型的新題目。</div>
+  </section>
+ </aside>
 </main>
+
 <script>
 'use strict';
 let currentQuestions=[],geometryTypeHistory=[],geometryQuestionFingerprints=[];
@@ -186,6 +222,7 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
     // 所有題型共用同一組不等式／整數範圍工具，避免題目、詳解和整數答案各自使用不同判斷。
     function createInequalityQ() {
         const flipSign = { '&gt;': '&lt;', '&ge;': '&le;', '&lt;': '&gt;', '&le;': '&ge;' };
+        const plainSign = sign => ({ '&gt;': '>', '&ge;': '>=', '&lt;': '<', '&le;': '<=' }[sign] || sign);
         const isStrict = sign => sign === '&gt;' || sign === '&lt;';
         const near = (a, b) => Math.abs(a - b) < 1e-9;
         const cleanNumber = n => near(n, Math.round(n)) ? Math.round(n) : n;
@@ -283,7 +320,11 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
                     { sub: '', sol: `因此，所求的整數為 ${ints.join('、')}。`, mark: '1A', rem: '' }
                 ];
                 built = { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4, ms,
-                    subs: [ { label: '(a)', text: `解不等式 ${eq1}。`, marks: '', lines: 8 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq1} 及 ${eq2} 的整數。`, marks: '', lines: 6 } ] };
+                    subs: [ { label: '(a)', text: `解不等式 ${eq1}。`, marks: '', lines: 8 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq1} 及 ${eq2} 的整數。`, marks: '', lines: 6 } ],
+                    practiceAnswers: { parts: [
+                        { label: '(a)', kind: 'relations', connective: '', constraints: [{ operator: plainSign(solvedSign), value: rhs / coef }] },
+                        { label: '(b)', kind: 'integer-list', values: ints }
+                    ] } };
             }
             // 防止在極端隨機序列下無限抽題；後備題同樣符合相同考核邏輯。
             if (built) return built;
@@ -292,7 +333,8 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
                 ms: [
                     { sub: '(a)', sol: `2<i>x</i> &lt; 4<br><i>x</i> &lt; 2`, mark: '1M+1A', rem: '' },
                     { sub: '(b)', sol: `由 ${eq2}，得 <i>x</i> &gt; −1。<br>聯立得 −1 &lt; <i>x</i> &lt; 2。<br>因此，所求整數為 0、1。`, mark: '1M+1A', rem: '' }
-                ], subs: [ { label: '(a)', text: `解不等式 ${eq1}。`, marks: '', lines: 6 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq1} 及 ${eq2} 的整數。`, marks: '', lines: 5 } ] };
+                ], subs: [ { label: '(a)', text: `解不等式 ${eq1}。`, marks: '', lines: 6 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq1} 及 ${eq2} 的整數。`, marks: '', lines: 5 } ],
+                practiceAnswers: { parts: [ { label: '(a)', kind: 'relations', connective: '', constraints: [{ operator: '<', value: 2 }] }, { label: '(b)', kind: 'integer-list', values: [0, 1] } ] } };
 
         } else if (type === 2) {
             // (a) (Ax+B)/M > x+D 且 Ex+F <= 0，通用地求交集；(b) 才按交集決定答案。
@@ -328,14 +370,19 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
                     { sub: '(b)', sol: ask === '所有正整數' ? `共有 ${ans} 個正整數。` : `${ans}`, mark: '1A', rem: '' }
                 ];
                 built = { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4, ms,
-                    subs: [ { label: '(a)', text: `求同時滿足不等式 ${eq1} 及 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: questionB, marks: '', lines: 4 } ] };
+                    subs: [ { label: '(a)', text: `求同時滿足不等式 ${eq1} 及 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: questionB, marks: '', lines: 4 } ],
+                    practiceAnswers: { parts: [
+                        { label: '(a)', kind: 'relations', connective: 'and', constraints: [range.lower, range.upper].filter(Boolean).map(r => ({ operator: plainSign(r.sign), value: r.bound })) },
+                        { label: '(b)', kind: 'number', values: [ans] }
+                    ] } };
             }
             if (built) return built;
             // 後備題：4x/2 > x−2 且 2x−2 <= 0，交集為 −2 < x <= 1。
             const eq1 = `${buildFrac('4<i>x</i>', 2)} &gt; <i>x</i> − 2`, eq2 = `2<i>x</i> − 2 &le; 0`;
             return { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4,
                 ms: [ { sub: '(a)', sol: `由 ${eq1}，可得 4<i>x</i> &gt; 2<i>x</i> − 4，因此 <i>x</i> &gt; −2。<br>由 ${eq2}，可得 <i>x</i> &le; 1。<br>因此，−2 &lt; <i>x</i> &le; 1。`, mark: '1M+1A', rem: '' }, { sub: '(b)', sol: '1', mark: '1A', rem: '' } ],
-                subs: [ { label: '(a)', text: `求同時滿足不等式 ${eq1} 及 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: '寫出滿足 (a) 的不等式的最大整數。', marks: '', lines: 4 } ] };
+                subs: [ { label: '(a)', text: `求同時滿足不等式 ${eq1} 及 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: '寫出滿足 (a) 的不等式的最大整數。', marks: '', lines: 4 } ],
+                practiceAnswers: { parts: [ { label: '(a)', kind: 'relations', connective: 'and', constraints: [{ operator: '>', value: -2 }, { operator: '<=', value: 1 }] }, { label: '(b)', kind: 'number', values: [1] } ] } };
 
         } else if (type === 3) {
             // 聯集題：一條限制給出正方向的解，另一條給出負方向的解。
@@ -363,13 +410,18 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
                     { sub: '(b)', sol: `${ans}`, mark: '1A', rem: '' }
                 ];
                 built = { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4, ms,
-                    subs: [ { label: '(a)', text: `求滿足不等式 ${eq1} 或 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: `寫出滿足 (a) 的不等式的${ask}。`, marks: '', lines: 4 } ] };
+                    subs: [ { label: '(a)', text: `求滿足不等式 ${eq1} 或 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: `寫出滿足 (a) 的不等式的${ask}。`, marks: '', lines: 4 } ],
+                    practiceAnswers: { parts: [
+                        { label: '(a)', kind: 'relations', connective: 'or', constraints: [{ operator: plainSign(sign2), value: val2 }, { operator: plainSign(sign1), value: val1 }] },
+                        { label: '(b)', kind: 'number', values: [ans] }
+                    ] } };
             }
             if (built) return built;
             const eq1 = `2<i>x</i> &gt; 2`, eq2 = `2<i>x</i> &lt; −2`;
             return { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4,
                 ms: [ { sub: '(a)', sol: `由 ${eq1} 或 ${eq2}，得 <i>x</i> &gt; 1 或 <i>x</i> &lt; −1。`, mark: '1M+1A', rem: '' }, { sub: '(b)', sol: '2', mark: '1A', rem: '' } ],
-                subs: [ { label: '(a)', text: `求滿足不等式 ${eq1} 或 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: '寫出滿足 (a) 的不等式的最小正整數。', marks: '', lines: 4 } ] };
+                subs: [ { label: '(a)', text: `求滿足不等式 ${eq1} 或 ${eq2} 的 <i>x</i> 值的範圍。`, marks: '', lines: 8 }, { label: '(b)', text: '寫出滿足 (a) 的不等式的最小正整數。', marks: '', lines: 4 } ],
+                practiceAnswers: { parts: [ { label: '(a)', kind: 'relations', connective: 'or', constraints: [{ operator: '>', value: 1 }, { operator: '<', value: -1 }] }, { label: '(b)', kind: 'number', values: [2] } ] } };
 
         } else {
             // 題型 4：左右兩邊均為分式。乘以兩分母的乘積時，按乘積正負決定是否反轉不等號。
@@ -418,7 +470,8 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
                 { sub: '(b)', sol: `由 ${eq2}，可得 <i>x</i> ${secondSign} ${cut}。<br>聯立 (a)，得 <span class="nowrap-eq">${renderRange(range)}</span>。<br>所求整數為 ${integerAnswers.join('、')}。`, mark: '1A', rem: '須同時符合兩條不等式' }
             ];
             return { id: `q_${Date.now()}_${Math.random()}`, type: 'ineq', text: '', marks: '(4分)', totalMarks: 4, ms,
-                subs: [ { label: '(a)', text: `解不等式 ${eq}。`, marks: '(3分)', lines: 8 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq} 及 ${eq2} 的整數。`, marks: '(1分)', lines: 5 } ] };
+                subs: [ { label: '(a)', text: `解不等式 ${eq}。`, marks: '(3分)', lines: 8 }, { label: '(b)', text: `求所有同時滿足不等式 ${eq} 及 ${eq2} 的整數。`, marks: '(1分)', lines: 5 } ],
+                practiceAnswers: { parts: [ { label: '(a)', kind: 'relations', connective: '', constraints: [{ operator: plainSign(finalSign), value: boundary }] }, { label: '(b)', kind: 'integer-list', values: integerAnswers } ] } };
         }
     }
 
@@ -2747,11 +2800,12 @@ function keepStats(){try{localStorage.setItem('dseStudentPracticeStats',JSON.str
 function recordStat(type,correct){const s=stats[type]||(stats[type]={attempts:0,correct:0});s.attempts++;if(correct)s.correct++;keepStats();refreshStats();}
 function refreshStats(){let all=0,good=0;Object.values(stats).forEach(s=>{all+=s.attempts||0;good+=s.correct||0});$('totalBadge').textContent='已完成 '+all+' 題';$('accuracyBadge').textContent='正確率 '+(all?Math.round(good*100/all)+'%':'—');const type=$('topicSelect').value,s=stats[type]||{attempts:0,correct:0};$('topicStat').textContent=labels[type]+'：'+s.correct+' / '+s.attempts+' 題正確';$('progressFill').style.width=(s.attempts?s.correct*100/s.attempts:0)+'%';$('progressText').textContent=s.attempts?'本課題正確率 '+Math.round(s.correct*100/s.attempts)+'% · 共做 '+s.attempts+' 題':'答錯後會再出同一種題型的新題目。';}
 function cleanText(html){const div=document.createElement('div');div.innerHTML=html||'';return(div.textContent||'').replace(/ /g,' ').trim()}
-function numericValue(v){let z=String(v||'').trim().replace(/[，,￥$\s]/g,'').replace(/[−–]/g,'-');if(z.endsWith('%'))z=z.slice(0,-1);if(/^[-+]?(?:\d+\.?\d*|\.\d+)\s*\/\s*[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)){const pair=z.split('/').map(Number);return pair[1]?pair[0]/pair[1]:NaN}return /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)?Number(z):NaN}
+function numericValue(v){let z=String(v??'').trim().replace(/[，,￥$\s]/g,'').replace(/[−–]/g,'-');if(z.endsWith('%'))z=z.slice(0,-1);if(/^[-+]?(?:\d+\.?\d*|\.\d+)\s*\/\s*[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)){const pair=z.split('/').map(Number);return pair[1]?pair[0]/pair[1]:NaN}return /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)?Number(z):NaN}
 function sameNumber(a,b){let x=numericValue(a),y=numericValue(b);return Number.isFinite(x)&&Number.isFinite(y)&&Math.abs(x-y)<1e-8*Math.max(1,Math.abs(y))}
 function sameRatio(a,b){const p=String(a).split(':').map(x=>numericValue(x)),t=String(b).split(':').map(x=>numericValue(x));if(p.length!==3||t.length!==3||p.some(x=>!Number.isFinite(x))||t.some(x=>!Number.isFinite(x)))return false;return Math.abs(p[0]*t[1]-p[1]*t[0])<1e-6&&Math.abs(p[1]*t[2]-p[2]*t[1])<1e-6}
 function oneEqualsValue(row){const html=row.sol||'';let match=[...html.matchAll(/<i>[a-zA-Z]<\/i>\s*=\s*([$]?[−–-]?\d+(?:\.\d+)?)(?=\s*(?:<br>|$))/g)];return match.length?match[match.length-1][1]:null}
 function prepareCheck(question){if(question.answerLetter)return {type:'mc',values:[question.answerLetter],labels:['選項 A / B / C / D']};
+ if(question.type==='ineq'&&question.practiceAnswers?.parts?.length)return {type:'ineq',parts:question.practiceAnswers.parts};
  if(question.type==='rounding'&&question.ms.length===3){const values=question.ms.map(r=>cleanText(r.sol));if(values.every(x=>Number.isFinite(numericValue(x))))return{type:'numbers',values,labels:['(a)','(b)','(c)']}}
  if(question.type==='ratio'){
  const last=question.ms[question.ms.length-1].sol;let target=null;
@@ -2770,6 +2824,50 @@ function prepareCheck(question){if(question.answerLetter)return {type:'mc',value
  return {type:'self',values:[],labels:['輸入最終答案（可連同計算過程）']};
 }
 let checker=null;
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function symbolStrip(keys){return `<div class="symbol-strip">${keys.map(k=>`<button type="button" class="symbol-key" data-symbol="${escapeHTML(k)}">${escapeHTML(k)}</button>`).join('')}</div>`;}
+function renderAnswerInterface(currentChecker){
+ const host=$('answerInputs');
+ if(currentChecker.type==='ineq'){
+  host.className='answer-grid inequality-grid';
+  host.innerHTML=currentChecker.parts.map((part,p)=>{
+   if(part.kind==='relations'){
+    const rows=part.constraints.map((_,j)=>`<div class="ineq-row"><span class="ineq-x"><i>x</i></span><div class="operator-pick" id="ineq-op-${p}-${j}" role="group" aria-label="選擇不等號">${[['>','&gt;'],['<','&lt;'],['>=','&ge;'],['<=','&le;']].map(([op,label])=>`<button type="button" data-ineq-operator="${op}" aria-pressed="false">${label}</button>`).join('')}</div><input type="text" id="ineq-value-${p}-${j}" inputmode="decimal" autocomplete="off" placeholder="界限數值" aria-label="界限數值"><button type="button" class="symbol-key ineq-minus" data-symbol="−" aria-label="輸入負號">−</button></div>`).join(part.connective==='or'?'<div class="ineq-connective">或</div>':part.connective==='and'?'<div class="ineq-connective">且</div>':'');
+    return `<div class="answer-item ineq-answer"><label>${escapeHTML(part.label)} 不等式答案</label>${rows}</div>`;
+   }
+   const isList=part.kind==='integer-list';
+   const placeholder=isList?'例如：−2、0、3':'輸入數值';
+   return `<div class="answer-item ineq-answer"><label>${escapeHTML(part.label)} ${isList?'所有整數':'答案'}</label><input type="text" id="ineq-value-${p}-0" inputmode="${isList?'text':'decimal'}" autocomplete="off" placeholder="${placeholder}">${symbolStrip(isList?['−','、']:['−','/'])}</div>`;
+  }).join('');
+ }else{
+  host.className='answer-grid';
+  host.innerHTML=currentChecker.labels.map((label,i)=>{
+   const placeholder=currentChecker.type==='mc'?'例如：B':currentChecker.type==='mixed'&&i===0?'例如：2:3:4':'輸入答案';
+   const field=currentChecker.type==='self'?`<textarea id="answer${i}" placeholder="在此輸入答案或計算步驟"></textarea>`:`<input type="text" id="answer${i}" autocomplete="off" autocorrect="off" inputmode="${currentChecker.type==='mc'?'text':'decimal'}" placeholder="${placeholder}">`;
+   let keys=[];
+   if(currentChecker.type==='self')keys=['−','/','×','÷',':','°','²','³','√','π','≤','≥'];
+   else if(currentChecker.type==='mixed'&&i===0)keys=['−',':'];
+   else if(currentChecker.type!=='mc')keys=['−','/'];
+   return `<div class="answer-item"><label for="answer${i}">${escapeHTML(label)}</label>${field}${keys.length?symbolStrip(keys):''}</div>`;
+  }).join('');
+ }
+}
+function insertAnswerSymbol(target,symbol){
+ const input=target.closest('.ineq-row')?.querySelector('input')||target.closest('.answer-item')?.querySelector('input,textarea');if(!input||input.disabled)return;
+ input.focus();
+ const start=Number.isInteger(input.selectionStart)?input.selectionStart:input.value.length;
+ const end=Number.isInteger(input.selectionEnd)?input.selectionEnd:start;
+ const before=input.value.slice(0,start),after=input.value.slice(end);
+ input.value=before+symbol+after;
+ const at=start+symbol.length;try{input.setSelectionRange(at,at)}catch(e){}
+ input.dispatchEvent(new Event('input',{bubbles:true}));
+}
+$('answerInputs').addEventListener('click',ev=>{
+ const opButton=ev.target.closest('[data-ineq-operator]');
+ if(opButton){const group=opButton.closest('.operator-pick');group.dataset.operator=opButton.dataset.ineqOperator;group.querySelectorAll('[data-ineq-operator]').forEach(b=>{const active=b===opButton;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});return;}
+ const symbolButton=ev.target.closest('[data-symbol]');if(symbolButton)insertAnswerSymbol(symbolButton,symbolButton.dataset.symbol);
+});
+
 function newQuestion(sameTemplate=false){const type=$('topicSelect').value,previous=q;let newQ=null;for(let i=0;i<42;i++){
  recordedVariants={};
  const randomMC={p2indices:4,p2var:13,p2scale:3,p2base:3,p2poly:3};
@@ -2785,41 +2883,110 @@ function newQuestion(sameTemplate=false){const type=$('topicSelect').value,previ
  if(!newQ){$('resultBox').innerHTML='<div class="result wrong">未能成功生成題目，請重試或選擇另一課題。</div>';return}
  q=newQ;number++;outcome=null;checker=prepareCheck(q);lastJudged=false;strokes=[];redoStack=[];drawing=null;drawingPointerId=null;
  $('questionNum').textContent=number;$('topicLabel').textContent=labels[type]||type;$('marksLabel').textContent=q.marks||'';
- $('gradingLabel').textContent=checker.type==='self'?'詳解核對':'自動批改';
+ $('gradingLabel').textContent=checker.type==='self'?'詳解核對':checker.type==='ineq'?'不等號＋數值批改':'自動批改';
  const main=q.geomBody?`<div class="question-main">${q.text||''}</div>${q.geomBody}`:`<div class="question-main">${q.text||''}</div>`;
  const geom=q.svgRight?`<div class="geom-wrap"><div>${main}</div><div class="svg-area">${q.svgRight}</div></div>`:main;
  const parts=(q.subs||[]).filter(p=>p.label||p.text).map(p=>`<div class="part"><span class="partlabel">${p.label||''}</span><span>${p.text||''}</span></div>`).join('');
  $('questionContent').innerHTML=geom+parts;
- $('answerInputs').innerHTML=checker.labels.map((label,i)=>`<div class="answer-item"><label for="answer${i}">${label}</label>${checker.type==='self'?`<textarea id="answer${i}" placeholder="可在此輸入最後答案或計算步驟"></textarea>`:`<input type="text" id="answer${i}" autocomplete="off" autocorrect="off" inputmode="${checker.type==='mc'?'text':'decimal'}" placeholder="${checker.type==='mc'?'例如：B':checker.type==='mixed'&&i===0?'例如：2:3:4':'在此輸入答案'}">`}</div>`).join('');
- $('answerHelp').textContent=checker.type==='mc'?'輸入 A、B、C 或 D；也可切換至「閱讀／選答案」模式後點選選項。':checker.type==='numbers'?'用鍵盤填寫各小題最終數值，系統會即時核對（不包括解題過程分）。':'此題涉及文字解釋、證明或代數等價答案；輸入答案後可顯示原始詳解自行核對。';
+ renderAnswerInterface(checker);
+ $('answerModeBadge').textContent=checker.type==='ineq'?'符號＋數值批改':checker.type==='self'?'詳解核對':'自動核對';
  $('resultBox').innerHTML='';$('solutionBox').hidden=true;$('solutionBox').innerHTML='';$('nextBtn').hidden=true;$('checkBtn').disabled=false;
  requestAnimationFrame(()=>{resizeCanvas();repaint()});
  if(checker.type==='mc'){
    $('questionContent').querySelectorAll('.p2-choice').forEach((el,i)=>{el.setAttribute('role','button');el.setAttribute('tabindex','0');el.addEventListener('click',()=>selectChoice(i));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectChoice(i)}})})
  }
- $('answerInputs').querySelectorAll('input').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')judge()}));
+ $('answerInputs').querySelectorAll('input').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();judge()}}));
  refreshStats();
 }
 function selectChoice(index){if(lastJudged)return;const input=$('answer0');if(!input)return;input.value='ABCD'[index];const opts=$('questionContent').querySelectorAll('.p2-choice');opts.forEach((el,i)=>el.classList.toggle('selected',i===index))}
 function solutionHTML(){const lines=(q.ms||[]).map(row=>`<div class="step"><b>${row.sub||''}</b> ${row.sol||''}</div>`).join('');return `<div class="solution"><b>原出卷系統評卷參考</b>${lines}${q.answerLetter?`<div style="font-weight:800;padding-top:8px">正確選項：${q.answerLetter}</div>`:''}</div>`}
 function showSolution(){if(!q)return;$('solutionBox').hidden=false;$('solutionBox').innerHTML=solutionHTML();}
-function judge(){if(!q||lastJudged)return;
- const values=checker.labels.map((_,i)=>($('answer'+i)?.value||'').trim());if(values.some(v=>!v)){$('resultBox').innerHTML='<div class="result notice">請先填妥所有答案欄。</div>';return}
- if(checker.type==='self'){
-  $('resultBox').innerHTML=`<div class="result notice"><h3>請對照詳解自行核對</h3>這題需要判斷算式、步驟或文字解釋。請看下方詳解，再選擇你的核對結果。<div class="answer-actions"><button class="btn green" id="selfGood">✅ 我答對了</button><button class="btn outline" id="selfWrong">🔁 我需要再練同一題型</button></div></div>`;
-  showSolution();$('checkBtn').disabled=true;
-  $('selfGood').onclick=()=>finish(true);$('selfWrong').onclick=()=>finish(false);return
+function checkInequalityAnswers(){
+ const operatorRows=[];
+ for(let p=0;p<checker.parts.length;p++){
+  const part=checker.parts[p];
+  if(part.kind==='relations'){
+   const student=[];
+   for(let j=0;j<part.constraints.length;j++){
+    const group=$(`ineq-op-${p}-${j}`),input=$(`ineq-value-${p}-${j}`);
+    const operator=group?.dataset.operator||'',value=(input?.value||'').trim();
+    if(!operator||!value||!Number.isFinite(numericValue(value)))return {complete:false,good:false};
+    student.push({operator,value:numericValue(value)});
+   }
+   const expected=part.constraints||[];
+   const unmatched=student.slice();
+   for(const item of expected){
+    const index=unmatched.findIndex(x=>x.operator===item.operator&&sameNumber(x.value,item.value));
+    if(index<0)return {complete:true,good:false};
+    unmatched.splice(index,1);
+   }
+   if(unmatched.length)return {complete:true,good:false};
+   operatorRows.push({label:part.label,kind:'relations',connective:part.connective,constraints:student});
+  }else{
+   const input=$(`ineq-value-${p}-0`),value=(input?.value||'').trim();
+   if(!value)return {complete:false,good:false};
+   if(part.kind==='integer-list'){
+    const actual=value.replace(/[{}\[\]()]/g,'').split(/[，,、;；\s]+/).filter(Boolean).map(numericValue);
+    const expected=(part.values||[]).map(Number);
+    if(actual.length!==expected.length||actual.some(v=>!Number.isFinite(v)||!Number.isInteger(v)))return {complete:true,good:false};
+    const a=actual.slice().sort((x,y)=>x-y),b=expected.slice().sort((x,y)=>x-y);
+    if(a.some((v,i)=>v!==b[i]))return {complete:true,good:false};
+    operatorRows.push({label:part.label,kind:part.kind,values:actual});
+   }else{
+    if(!Number.isFinite(numericValue(value)))return {complete:true,good:false};
+    const expected=(part.values||[]).map(Number);
+    if(expected.length!==1||!sameNumber(value,expected[0]))return {complete:true,good:false};
+    operatorRows.push({label:part.label,kind:part.kind,values:[numericValue(value)]});
+   }
+  }
  }
+ return {complete:true,good:true,student:operatorRows};
+}
+function formatAnswerNumber(value){
+ const n=Number(value);if(!Number.isFinite(n))return String(value);
+ const sign=n<0?'−':'';const a=Math.abs(n),whole=Math.round(a);
+ if(Math.abs(a-whole)<1e-9)return sign+whole;
+ for(let d=2;d<=1000;d++){
+  const top=Math.round(a*d);
+  if(Math.abs(top/d-a)<1e-9){const g=gcd(top,d);return sign+(top/g)+'/'+(d/g);}
+ }
+ return sign+Number(a.toPrecision(7)).toString();
+}
+function inequalityReferenceText(){
+ const symbols={'>':'&gt;','<':'&lt;','>=':'&ge;','<=':'&le;'};
+ return checker.parts.map(part=>{
+  if(part.kind==='relations')return `${part.label} ${part.constraints.map(c=>`<i>x</i> ${symbols[c.operator]||c.operator} ${formatAnswerNumber(c.value)}`).join(part.connective==='or'?' 或 ':' 且 ')}`;
+  return `${part.label} ${part.values.join('、')}`;
+ }).join('；');
+}
+function judge(){if(!q||lastJudged)return;
+ if(checker.type==='self'){
+  const values=checker.labels.map((_,i)=>($(`answer${i}`)?.value||'').trim());
+  if(values.some(v=>!v)){$('resultBox').innerHTML='<div class="result notice">請先輸入答案，再對照評卷參考。</div>';return}
+  $('resultBox').innerHTML=`<div class="result notice"><h3>請對照詳解自行核對</h3>請看評卷參考，再選擇你的核對結果。<div class="answer-actions"><button class="btn green" id="selfGood">✅ 我答對了</button><button class="btn outline" id="selfWrong">🔁 我需要再練同一題型</button></div></div>`;
+  showSolution();$('checkBtn').disabled=true;
+  $('selfGood').onclick=()=>finish(true);$('selfWrong').onclick=()=>finish(false);return;
+ }
+ if(checker.type==='ineq'){
+  const result=checkInequalityAnswers();
+  if(!result.complete){$('resultBox').innerHTML='<div class="result notice">請選擇每條不等號，並填妥界限數值及整數答案。</div>';return;}
+  finish(result.good);return;
+ }
+ const values=checker.labels.map((_,i)=>($(`answer${i}`)?.value||'').trim());if(values.some(v=>!v)){$('resultBox').innerHTML='<div class="result notice">請先填妥所有答案欄。</div>';return;}
  let good=checker.values.every((ans,i)=>checker.type==='mc'?values[i].toUpperCase().replace(/[.．。\s]/g,'')===ans:(checker.type==='mixed'&&i===0?sameRatio(values[i],ans):sameNumber(values[i],ans)));
  finish(good);
 }
 function finish(good){if(lastJudged)return;lastJudged=true;outcome=good?'correct':'wrong';recordStat(q.type,good);
- $('resultBox').innerHTML=`<div class="result ${good?'success':'wrong'}"><h3>${good?'✅ 答案正確！':'❌ 答案不正確'}</h3>${good?'下一題會在所選課題中隨機生成。':'下一題會沿用這題的考核題型，改變數字／資料再試一次。'}${checker.type!=='self'?`<div>參考答案：<b>${checker.type==='mc'?q.answerLetter:checker.values.join('；')}</b></div>`:''}</div>`;
- if(!good)showSolution();$('checkBtn').disabled=true;$('nextBtn').hidden=false;$('nextBtn').textContent=good?'下一題 · 隨機題型 →':'下一題 · 同類題重練 →';
+ let reference='';
+ if(checker.type==='mc')reference=q.answerLetter;
+ else if(checker.type==='ineq')reference=inequalityReferenceText();
+ else if(checker.type!=='self')reference=checker.values.join('；');
+ $('resultBox').innerHTML=`<div class="result ${good?'success':'wrong'}"><h3>${good?'✅ 答案正確！':'❌ 答案不正確'}</h3>${good?'下一題會在所選課題中隨機生成。':'下一題會沿用這題的考核題型，改變數字／資料再試一次。'}${reference?`<div>參考答案：<b>${reference}</b></div>`:''}</div>`;
+ showSolution();$('checkBtn').disabled=true;$('nextBtn').hidden=false;$('nextBtn').textContent=good?'下一題 · 隨機題型 →':'下一題 · 同類題重練 →';
 }
-$('startBtn').addEventListener('click',()=>{newQuestion(false);$('questionPanel').scrollIntoView({behavior:'smooth',block:'start'});});
+$('startBtn').addEventListener('click',()=>newQuestion(false));
 $('topicSelect').addEventListener('change',refreshStats);
-$('nextBtn').addEventListener('click',()=>{newQuestion(outcome==='wrong');$('questionPanel').scrollIntoView({behavior:'smooth',block:'start'})});
+$('nextBtn').addEventListener('click',()=>newQuestion(outcome==='wrong'));
 $('checkBtn').addEventListener('click',judge);
 $('showStepsBtn').addEventListener('click',()=>{$('solutionBox').hidden?showSolution():$('solutionBox').hidden=true});
 $('resetStats').addEventListener('click',()=>{if(confirm('確定清除本機的練習統計？（不會刪除題庫）')){stats={};keepStats();refreshStats()}});
@@ -2920,6 +3087,8 @@ $('redoBtn').onclick=()=>{if(redoStack.length){strokes.push(redoStack.pop());rep
 $('clearBtn').onclick=()=>{if(strokes.length&&confirm('清除本題全部筆跡？')){strokes=[];redoStack=[];drawing=null;drawingPointerId=null;repaint()}};
 window.addEventListener('resize',()=>requestAnimationFrame(resizeCanvas));
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>requestAnimationFrame(resizeCanvas)).observe(sheet);
+// 手寫時鎖定瀏覽器頁面手勢；欄內仍可在「閱讀」模式捲動。
+for(const name of ['gesturestart','gesturechange'])sheet.addEventListener(name,ev=>{if(tool!=='off')ev.preventDefault()},{passive:false});
 setInkTool('pen');
 refreshStats();newQuestion(false);
 </script>
