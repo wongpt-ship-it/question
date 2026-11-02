@@ -33,8 +33,8 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
 .question-panel{padding:10px 11px}
 .title-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}.title-row h2{margin:2px 0 0;font-size:16px}.eyebrow{font-weight:750;letter-spacing:.3px;color:var(--blue);font-size:11px}
 .statusbar{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.pill{border-radius:16px;padding:4px 8px;background:#edf2ff;color:#3f54a2;font-weight:750;font-size:11px;white-space:nowrap}
-.sheet{position:relative;display:flex;flex:1 1 auto;flex-direction:column;min-height:0;border:1px solid #d9e1f1;border-radius:10px;background:white;overflow:hidden;isolation:isolate}
-.question-content{padding:11px 14px 3px;position:relative;z-index:0;font-family:"Times New Roman","PingFang HK","Microsoft JhengHei",serif;font-size:17px;line-height:1.55;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}
+.sheet{position:relative;display:block;flex:1 1 auto;min-height:0;border:1px solid #d9e1f1;border-radius:10px;background:white;overflow:hidden;isolation:isolate}.sheet-inner{position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:100%}.sheet.expanded{height:0;min-height:0;flex:1 1 0px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}.sheet.expanded .sheet-inner{height:auto;min-height:calc(100% + 900px)}.sheet.expanded .workspace{flex:0 0 900px;min-height:900px}.sheet.expanded #inkCanvas{touch-action:pan-y}.sheet.expanded.touch-draw #inkCanvas{touch-action:none}
+.question-content{padding:11px 14px 3px;position:relative;z-index:0;flex:0 0 auto;font-family:"Times New Roman","PingFang HK","Microsoft JhengHei",serif;font-size:17px;line-height:1.55;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}
 .question-content p{margin:5px 0}.question-main{margin-bottom:7px;font-weight:560}.part{display:flex;gap:8px;align-items:baseline;margin:7px 0}.partlabel{font-weight:750;white-space:nowrap}.geom-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,205px);gap:10px;align-items:start}
 .svg-area svg,.question-content svg{width:100%;height:auto;max-height:280px}.shape-line{stroke:black;stroke-width:1.5;fill:none;stroke-linejoin:round;stroke-linecap:round}.svg-area svg text,.question-content svg text{font-family:"Times New Roman","MingLiU",serif;font-size:12pt;font-style:italic;text-anchor:middle;dominant-baseline:central;fill:black}.svg-area svg text.normal-text{font-style:normal}.svg-area svg text.num-text{font-style:normal}
 .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 3px;font-family:"Times New Roman",serif;line-height:1.1;font-size:.92em}.frac>span:first-child{border-bottom:1px solid black;padding:0 3px}.frac>span:last-child{padding:0 3px}.nowrap-eq{white-space:nowrap;display:inline-block}
@@ -44,15 +44,18 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
 #inkCanvas,#liveInkCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #inkCanvas{z-index:2;cursor:crosshair}#inkCanvas.off{pointer-events:none}#liveInkCanvas{z-index:3;pointer-events:none}
 .answers{display:flex;flex:1 1 auto;flex-direction:column;gap:7px;padding:11px;min-height:0}.answers .title-row{margin:0}.answers .title-row h2{font-size:16px}
-.answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}.answer-grid.inequality-grid{grid-template-columns:minmax(0,1fr)}.answer-item{min-width:0}.answer-item label{font-size:12px;font-weight:750;display:block;margin-bottom:4px}.answer-item input,.answer-item textarea{padding:7px 8px;min-height:36px;font-size:16px}.answer-item textarea{min-height:76px}
+.answer-grid{display:flex;flex-direction:column;align-items:flex-start;gap:7px}.answer-grid.inequality-grid{width:100%;align-items:stretch}.answer-item{min-width:0;width:100%;max-width:270px}.answer-grid.inequality-grid .answer-item{max-width:100%}.answer-item label{font-size:12px;font-weight:750;display:block;margin-bottom:4px}.answer-item input,.answer-item textarea{padding:7px 8px;min-height:36px;font-size:16px;max-width:235px}.answer-item textarea{min-height:66px;width:100%;max-width:300px}
 .answer-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:2px 0 0}.answer-actions .btn{min-height:36px}
 .symbol-strip{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.symbol-key{min-width:29px;min-height:27px;padding:3px 7px;border-radius:6px;border:1px solid #d6dfef;background:#f8faff;color:#34476d;font-weight:700;font-size:13px}
-.ineq-answer{padding:7px 8px;border:1px solid #dfe6f3;border-radius:9px;background:#fbfcff}.ineq-answer>label{font-size:13px}.ineq-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:5px}.ineq-x{font-weight:800;min-width:13px}.operator-pick{display:flex;gap:3px;flex:0 0 auto}.operator-pick button{min-width:35px;height:32px;padding:3px 6px;border:1px solid #d2dcee;border-radius:7px;background:white;color:#273755;font-weight:800;font-size:16px}.operator-pick button.active{background:#e8efff;border:2px solid #5578de;color:#243eaa;padding:2px 5px}.ineq-row input{flex:1;min-width:52px;max-width:155px;height:33px;padding:5px 7px}.ineq-row .ineq-minus{flex:0 0 29px;min-width:29px;min-height:32px;padding:3px}.ineq-connective{text-align:center;font-weight:800;font-size:12px;color:#667592;padding:2px 0}
+.question-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.lock-toggle{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid #d9e2f2;border-radius:7px;background:#f7f9fd;color:#3e4d69;font-size:11px;font-weight:700;white-space:nowrap;vertical-align:middle}.lock-toggle input{width:15px;height:15px;margin:0;accent-color:var(--blue)}
+.numeric-keypad{width:100%;max-width:330px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:1px 0 2px}.numeric-key{min-width:0;min-height:32px;padding:4px 2px;border:1px solid #d4deef;border-radius:7px;background:#f7f9fe;color:#273958;font-size:14px;font-weight:750;touch-action:manipulation}.numeric-key:active{background:#e5edff;border-color:#829ce5}.numeric-key.special{background:#edf2ff;color:#2444a7}.numeric-key.danger{background:#fff1f1;border-color:#f0caca;color:#a43e3e}.numeric-keypad[hidden]{display:none!important}.mc-answer-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;width:100%;max-width:330px}.mc-answer-button{min-height:48px;border:1px solid #cbd6eb;border-radius:9px;background:#f8faff;color:#253958;font-size:20px;font-weight:850}.mc-answer-button.selected{background:#e7efff;border:2px solid #4169d4;color:#2344a9}.mc-answer-buttons[hidden]{display:none!important}.mc-answer-item{max-width:330px}.mc-answer-item>label{margin-bottom:7px}
+
+.ineq-answer{padding:7px 8px;border:1px solid #dfe6f3;border-radius:9px;background:#fbfcff}.ineq-answer>label{font-size:13px}.ineq-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:5px}.ineq-x{font-weight:800;min-width:13px}.operator-pick{display:flex;gap:3px;flex:0 0 auto}.operator-pick button{min-width:35px;height:32px;padding:3px 6px;border:1px solid #d2dcee;border-radius:7px;background:white;color:#273755;font-weight:800;font-size:16px}.operator-pick button.active{background:#e8efff;border:2px solid #5578de;color:#243eaa;padding:2px 5px}.ineq-row input{flex:1;min-width:56px;max-width:112px;height:33px;padding:5px 7px}.ineq-row .ineq-minus{flex:0 0 29px;min-width:29px;min-height:32px;padding:3px}.ineq-connective{text-align:center;font-weight:800;font-size:12px;color:#667592;padding:2px 0}
 .result{margin-top:2px;padding:9px 10px;border-radius:9px;border:1px solid #cad6eb;background:#f7f9fe;line-height:1.5;font-size:13px}.result.success{background:#eaf8f1;border-color:#a2dcc2;color:#075739}.result.wrong{background:#fff0f0;border-color:#ffc0c0;color:#9a3030}.result.notice{background:#fff8e7;border-color:#ead5a1;color:#80551c}.result h3{font-size:14px;margin:0 0 4px}
 .solution{padding:9px 10px;background:#f8faff;border:1px solid #d7e1f7;border-radius:9px;color:#263652;font-size:13px;line-height:1.5}.solution .step{margin:7px 0;border-bottom:1px solid #e3eaf6;padding-bottom:6px}.solution .step:last-child{border:0}.solution b{color:#3452b0}#solutionBox{max-height:min(42vh,370px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}#solutionBox:not([hidden]){min-height:clamp(145px,30vh,300px)}#solutionBox[hidden]{display:none!important}
 .progress-card{padding:9px 11px}.progress-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.progress-card h2{font-size:13px;margin:0}.progressline{height:6px;border-radius:8px;background:#e8edfa;overflow:hidden;margin:6px 0}.progressfill{height:100%;background:var(--blue);width:0%;transition:width .25s}.mini{font-size:11px;color:var(--muted)}
 @media(max-width:900px){.top-controls{grid-template-columns:1fr;gap:6px}.controls{min-height:43px}}
-@media(max-width:680px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}header{padding:9px 11px}.brand{font-size:16px}.brand small{display:none}.header-summary{font-size:10px}.top-controls{display:flex;flex-direction:column;padding:7px 8px 0}.setup{flex-wrap:wrap}.setup label{min-width:100%}.controls{overflow:hidden}.toolbar{overflow-x:auto}.pen-toggle{font-size:10px}main{display:block;height:auto;max-height:none;overflow:visible;padding:7px 8px}.left-col,.right-col{max-height:none;overflow:visible}.left-col{display:block;margin-bottom:8px}.left-col>.question-panel{min-height:0;display:block}.sheet{display:block;min-height:0}.workspace{height:270px;min-height:270px}.question-content{font-size:16px;padding:10px 11px}.right-col{display:flex}.answer-grid.inequality-grid{grid-template-columns:minmax(0,1fr)}.p2-choice-grid{grid-template-columns:1fr 1fr}.geom-wrap{grid-template-columns:minmax(0,1fr) minmax(100px,155px)}#solutionBox{max-height:420px}}
+@media(max-width:680px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}header{padding:9px 11px}.brand{font-size:16px}.brand small{display:none}.header-summary{font-size:10px}.top-controls{display:flex;flex-direction:column;padding:7px 8px 0}.setup{flex-wrap:wrap}.setup label{min-width:100%}.controls{overflow:hidden}.toolbar{overflow-x:auto}.pen-toggle{font-size:10px}main{display:block;height:auto;max-height:none;overflow:visible;padding:7px 8px}.left-col,.right-col{max-height:none;overflow:visible}.left-col{display:block;margin-bottom:8px}.left-col>.question-panel{min-height:0;display:block}.sheet{display:block;min-height:0;height:calc(100vh - 320px)}.sheet.expanded{height:calc(100vh - 320px);flex:none}.sheet-inner{height:100%;min-height:100%}.sheet.expanded .sheet-inner{min-height:calc(100% + 900px)}.sheet.expanded .workspace{height:900px;min-height:900px}.workspace{height:auto;min-height:155px}.question-content{font-size:16px;padding:10px 11px}.numeric-keypad{max-width:100%}.right-col{display:flex}.answer-grid.inequality-grid{grid-template-columns:minmax(0,1fr)}.p2-choice-grid{grid-template-columns:1fr 1fr}.geom-wrap{grid-template-columns:minmax(0,1fr) minmax(100px,155px)}#solutionBox{max-height:420px}}
 </style>
 </head>
 <body>
@@ -83,14 +86,22 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
 <main>
  <div class="left-col">
   <section class="card question-panel" id="questionPanel">
-   <div class="title-row"><div><span class="eyebrow" id="topicLabel">DSE 數學練習</span><h2>第 <span id="questionNum">1</span> 題 <small class="muted" id="marksLabel"></small></h2></div><span class="pill" id="gradingLabel">自動批改</span></div>
-   <div id="sheet" class="sheet"><div id="questionContent" class="question-content" aria-live="polite"></div><div class="workspace"></div><canvas id="inkCanvas" aria-label="可手寫的透明畫布"></canvas><canvas id="liveInkCanvas" aria-hidden="true"></canvas></div>
+   <div class="title-row"><div><span class="eyebrow" id="topicLabel">DSE 數學練習</span><h2 class="question-title">第 <span id="questionNum">1</span> 題 <label class="lock-toggle"><input type="checkbox" id="lockSheet" checked>鎖定題目</label> <small class="muted" id="marksLabel"></small></h2></div><span class="pill" id="gradingLabel">自動批改</span></div>
+   <div id="sheet" class="sheet locked"><div id="sheetInner" class="sheet-inner"><div id="questionContent" class="question-content" aria-live="polite"></div><div class="workspace"></div><canvas id="inkCanvas" aria-label="可手寫的透明畫布"></canvas><canvas id="liveInkCanvas" aria-hidden="true"></canvas></div></div>
   </section>
  </div>
  <aside class="right-col">
   <section class="card answers" id="answerCard">
    <div class="title-row"><h2>⌨️ 輸入答案</h2><span class="pill" id="answerModeBadge">作答區</span></div>
    <div id="answerInputs" class="answer-grid"></div>
+   <div id="answerKeypad" class="numeric-keypad" aria-label="數字及數學符號鍵盤">
+    <button type="button" class="numeric-key" data-key="7">7</button><button type="button" class="numeric-key" data-key="8">8</button><button type="button" class="numeric-key" data-key="9">9</button><button type="button" class="numeric-key special" data-key="+">＋</button><button type="button" class="numeric-key special" data-key="−">−</button>
+    <button type="button" class="numeric-key" data-key="4">4</button><button type="button" class="numeric-key" data-key="5">5</button><button type="button" class="numeric-key" data-key="6">6</button><button type="button" class="numeric-key special" data-key="×">×</button><button type="button" class="numeric-key special" data-key="÷">÷</button>
+    <button type="button" class="numeric-key" data-key="1">1</button><button type="button" class="numeric-key" data-key="2">2</button><button type="button" class="numeric-key" data-key="3">3</button><button type="button" class="numeric-key special" data-key="/">／</button><button type="button" class="numeric-key special" data-key=":">：</button>
+    <button type="button" class="numeric-key" data-key="0">0</button><button type="button" class="numeric-key" data-key=".">.</button><button type="button" class="numeric-key" data-key="(">(</button><button type="button" class="numeric-key" data-key=")">)</button><button type="button" class="numeric-key special" data-key="、">、</button>
+    <button type="button" class="numeric-key special" data-key="²">²</button><button type="button" class="numeric-key special" data-key="³">³</button><button type="button" class="numeric-key special" data-key="√">√</button><button type="button" class="numeric-key special" data-key="π">π</button><button type="button" class="numeric-key special" data-key="%">%</button>
+    <button type="button" class="numeric-key special" data-key="&gt;">&gt;</button><button type="button" class="numeric-key special" data-key="&lt;">&lt;</button><button type="button" class="numeric-key special" data-key="≥">≥</button><button type="button" class="numeric-key danger" data-key="backspace">⌫</button><button type="button" class="numeric-key danger" data-key="clear">清空</button>
+   </div>
    <div class="answer-actions"><button type="button" class="btn primary" id="checkBtn">核對答案</button><button type="button" class="btn green" id="nextBtn" hidden>下一題 →</button><button type="button" class="btn outline" id="showStepsBtn">評卷參考</button></div>
    <div id="resultBox" aria-live="polite"></div><div id="solutionBox" hidden></div>
   </section>
@@ -2793,12 +2804,24 @@ function chooseVariant(key,fresh){const v=variantOverride && Object.prototype.ha
 // 以下為學生版互動介面，不修改原有題目／答案計算。
 let q=null, number=0, outcome=null, tool='pen', inkColor='#243858',strokes=[],redoStack=[],drawing=null,stats={},lastJudged=false;
 const $=id=>document.getElementById(id);
-const canvas=$('inkCanvas'),sheet=$('sheet'),liveCanvas=$('liveInkCanvas'),ctx=canvas.getContext('2d'),liveCtx=liveCanvas.getContext('2d');
+const canvas=$('inkCanvas'),sheet=$('sheet'),sheetInner=$('sheetInner'),liveCanvas=$('liveInkCanvas'),ctx=canvas.getContext('2d'),liveCtx=liveCanvas.getContext('2d');
+let lastFocusedAnswerInput=null;
 const labels={p2indices:'指數定律（MC）',p2var:'變分（MC）',p2scale:'比例尺（MC）',p2base:'進制（MC）',p2poly:'續多項式（MC）',percent:'百分法',ineq:'不等式',factor:'因式分解',poly:'續多項式',ratio:'代數比例',coord:'坐標幾何',geom:'平面幾何與圓',var:'變分',indices:'指數定律',formula:'主項變換',rounding:'近似值',error:'誤差與度量',stat:'統計與離差',simul:'二元一次方程',mens:'求積法',locus:'軌跡與圓方程',prob:'續概率'};
 try {stats=JSON.parse(localStorage.getItem('dseStudentPracticeStats')||'{}') || {};}catch(e){stats={};}
 function keepStats(){try{localStorage.setItem('dseStudentPracticeStats',JSON.stringify(stats));}catch(e){}}
 function recordStat(type,correct){const s=stats[type]||(stats[type]={attempts:0,correct:0});s.attempts++;if(correct)s.correct++;keepStats();refreshStats();}
 function refreshStats(){let all=0,good=0;Object.values(stats).forEach(s=>{all+=s.attempts||0;good+=s.correct||0});$('totalBadge').textContent='已完成 '+all+' 題';$('accuracyBadge').textContent='正確率 '+(all?Math.round(good*100/all)+'%':'—');const type=$('topicSelect').value,s=stats[type]||{attempts:0,correct:0};$('topicStat').textContent=labels[type]+'：'+s.correct+' / '+s.attempts+' 題正確';$('progressFill').style.width=(s.attempts?s.correct*100/s.attempts:0)+'%';$('progressText').textContent=s.attempts?'本課題正確率 '+Math.round(s.correct*100/s.attempts)+'% · 共做 '+s.attempts+' 題':'答錯後會再出同一種題型的新題目。';}
+function setSheetLocked(locked){
+ $('lockSheet').checked=!!locked;
+ sheet.classList.toggle('locked',!!locked);
+ sheet.classList.toggle('expanded',!locked);
+ sheet.classList.toggle('touch-draw',!$('penOnly').checked);
+ if(locked)sheet.scrollTop=0;
+ requestAnimationFrame(()=>{resizeCanvas();repaint()});
+}
+$('lockSheet').addEventListener('change',ev=>setSheetLocked(ev.target.checked));
+$('penOnly').addEventListener('change',()=>{sheet.classList.toggle('touch-draw',!$('penOnly').checked)});
+
 function cleanText(html){const div=document.createElement('div');div.innerHTML=html||'';return(div.textContent||'').replace(/ /g,' ').trim()}
 function numericValue(v){let z=String(v??'').trim().replace(/[，,￥$\s]/g,'').replace(/[−–]/g,'-');if(z.endsWith('%'))z=z.slice(0,-1);if(/^[-+]?(?:\d+\.?\d*|\.\d+)\s*\/\s*[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)){const pair=z.split('/').map(Number);return pair[1]?pair[0]/pair[1]:NaN}return /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(z)?Number(z):NaN}
 function sameNumber(a,b){let x=numericValue(a),y=numericValue(b);return Number.isFinite(x)&&Number.isFinite(y)&&Math.abs(x-y)<1e-8*Math.max(1,Math.abs(y))}
@@ -2827,31 +2850,36 @@ let checker=null;
 function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
 function symbolStrip(keys){return `<div class="symbol-strip">${keys.map(k=>`<button type="button" class="symbol-key" data-symbol="${escapeHTML(k)}">${escapeHTML(k)}</button>`).join('')}</div>`;}
 function renderAnswerInterface(currentChecker){
- const host=$('answerInputs');
+ const host=$('answerInputs'),keypad=$('answerKeypad');
+ lastFocusedAnswerInput=null;
+ if(currentChecker.type==='mc'){
+  host.className='answer-grid mc-answer-grid';
+  host.innerHTML=`<div class="answer-item mc-answer-item"><label>選擇答案</label><input type="hidden" id="answer0" value=""><div class="mc-answer-buttons" role="group" aria-label="選擇 A、B、C 或 D">${['A','B','C','D'].map(letter=>`<button type="button" class="mc-answer-button" data-mc-choice="${letter}" aria-pressed="false">${letter}</button>`).join('')}</div></div>`;
+  keypad.hidden=true;
+  return;
+ }
+ keypad.hidden=false;
  if(currentChecker.type==='ineq'){
   host.className='answer-grid inequality-grid';
   host.innerHTML=currentChecker.parts.map((part,p)=>{
    if(part.kind==='relations'){
-    const rows=part.constraints.map((_,j)=>`<div class="ineq-row"><span class="ineq-x"><i>x</i></span><div class="operator-pick" id="ineq-op-${p}-${j}" role="group" aria-label="選擇不等號">${[['>','&gt;'],['<','&lt;'],['>=','&ge;'],['<=','&le;']].map(([op,label])=>`<button type="button" data-ineq-operator="${op}" aria-pressed="false">${label}</button>`).join('')}</div><input type="text" id="ineq-value-${p}-${j}" inputmode="decimal" autocomplete="off" placeholder="界限數值" aria-label="界限數值"><button type="button" class="symbol-key ineq-minus" data-symbol="−" aria-label="輸入負號">−</button></div>`).join(part.connective==='or'?'<div class="ineq-connective">或</div>':part.connective==='and'?'<div class="ineq-connective">且</div>':'');
+    const rows=part.constraints.map((_,j)=>`<div class="ineq-row"><span class="ineq-x"><i>x</i></span><div class="operator-pick" id="ineq-op-${p}-${j}" role="group" aria-label="選擇不等號">${[['>','&gt;'],['<','&lt;'],['>=','&ge;'],['<=','&le;']].map(([op,label])=>`<button type="button" data-ineq-operator="${op}" aria-pressed="false">${label}</button>`).join('')}</div><input type="text" id="ineq-value-${p}-${j}" inputmode="decimal" autocomplete="off" placeholder="數值" aria-label="界限數值"></div>`).join(part.connective==='or'?'<div class="ineq-connective">或</div>':part.connective==='and'?'<div class="ineq-connective">且</div>':'');
     return `<div class="answer-item ineq-answer"><label>${escapeHTML(part.label)} 不等式答案</label>${rows}</div>`;
    }
    const isList=part.kind==='integer-list';
    const placeholder=isList?'例如：−2、0、3':'輸入數值';
-   return `<div class="answer-item ineq-answer"><label>${escapeHTML(part.label)} ${isList?'所有整數':'答案'}</label><input type="text" id="ineq-value-${p}-0" inputmode="${isList?'text':'decimal'}" autocomplete="off" placeholder="${placeholder}">${symbolStrip(isList?['−','、']:['−','/'])}</div>`;
+   return `<div class="answer-item ineq-answer"><label>${escapeHTML(part.label)} ${isList?'所有整數':'答案'}</label><input type="text" id="ineq-value-${p}-0" inputmode="decimal" autocomplete="off" placeholder="${placeholder}"></div>`;
   }).join('');
  }else{
   host.className='answer-grid';
   host.innerHTML=currentChecker.labels.map((label,i)=>{
-   const placeholder=currentChecker.type==='mc'?'例如：B':currentChecker.type==='mixed'&&i===0?'例如：2:3:4':'輸入答案';
-   const field=currentChecker.type==='self'?`<textarea id="answer${i}" placeholder="在此輸入答案或計算步驟"></textarea>`:`<input type="text" id="answer${i}" autocomplete="off" autocorrect="off" inputmode="${currentChecker.type==='mc'?'text':'decimal'}" placeholder="${placeholder}">`;
-   let keys=[];
-   if(currentChecker.type==='self')keys=['−','/','×','÷',':','°','²','³','√','π','≤','≥'];
-   else if(currentChecker.type==='mixed'&&i===0)keys=['−',':'];
-   else if(currentChecker.type!=='mc')keys=['−','/'];
-   return `<div class="answer-item"><label for="answer${i}">${escapeHTML(label)}</label>${field}${keys.length?symbolStrip(keys):''}</div>`;
+   const placeholder=currentChecker.type==='mixed'&&i===0?'例如：2:3:4':'輸入答案';
+   const field=currentChecker.type==='self'?`<textarea id="answer${i}" placeholder="在此輸入答案或計算步驟"></textarea>`:`<input type="text" id="answer${i}" autocomplete="off" autocorrect="off" inputmode="decimal" placeholder="${placeholder}">`;
+   return `<div class="answer-item"><label for="answer${i}">${escapeHTML(label)}</label>${field}</div>`;
   }).join('');
  }
 }
+
 function insertAnswerSymbol(target,symbol){
  const input=target.closest('.ineq-row')?.querySelector('input')||target.closest('.answer-item')?.querySelector('input,textarea');if(!input||input.disabled)return;
  input.focus();
@@ -2862,10 +2890,30 @@ function insertAnswerSymbol(target,symbol){
  const at=start+symbol.length;try{input.setSelectionRange(at,at)}catch(e){}
  input.dispatchEvent(new Event('input',{bubbles:true}));
 }
+$('answerInputs').addEventListener('focusin',ev=>{if(ev.target.matches('input:not([type="hidden"]),textarea'))lastFocusedAnswerInput=ev.target;});
 $('answerInputs').addEventListener('click',ev=>{
+ const mcButton=ev.target.closest('[data-mc-choice]');
+ if(mcButton){selectChoice('ABCD'.indexOf(mcButton.dataset.mcChoice));return;}
  const opButton=ev.target.closest('[data-ineq-operator]');
  if(opButton){const group=opButton.closest('.operator-pick');group.dataset.operator=opButton.dataset.ineqOperator;group.querySelectorAll('[data-ineq-operator]').forEach(b=>{const active=b===opButton;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});return;}
  const symbolButton=ev.target.closest('[data-symbol]');if(symbolButton)insertAnswerSymbol(symbolButton,symbolButton.dataset.symbol);
+});
+$('answerKeypad').addEventListener('click',ev=>{
+ const button=ev.target.closest('[data-key]');if(!button)return;
+ const input=(lastFocusedAnswerInput&&lastFocusedAnswerInput.isConnected)?lastFocusedAnswerInput:$('answerInputs').querySelector('input:not([type="hidden"]),textarea');
+ if(!input)return;
+ input.focus();
+ const start=Number.isInteger(input.selectionStart)?input.selectionStart:input.value.length;
+ const end=Number.isInteger(input.selectionEnd)?input.selectionEnd:start;
+ const key=button.dataset.key;let before=input.value.slice(0,start),after=input.value.slice(end),next=before;
+ if(key==='clear'){input.value='';try{input.setSelectionRange(0,0)}catch(e){}}
+ else if(key==='backspace'){
+  if(start===end&&start>0)before=before.slice(0,-1);
+  input.value=before+after;try{input.setSelectionRange(before.length,before.length)}catch(e){}
+ }else{
+  input.value=before+key+after;const at=start+key.length;try{input.setSelectionRange(at,at)}catch(e){}
+ }
+ input.dispatchEvent(new Event('input',{bubbles:true}));
 });
 
 function newQuestion(sameTemplate=false){const type=$('topicSelect').value,previous=q;let newQ=null;for(let i=0;i<42;i++){
@@ -2881,7 +2929,7 @@ function newQuestion(sameTemplate=false){const type=$('topicSelect').value,previ
  if(!previous||questionSignature(newQ)!==questionSignature(previous))break;
  }
  if(!newQ){$('resultBox').innerHTML='<div class="result wrong">未能成功生成題目，請重試或選擇另一課題。</div>';return}
- q=newQ;number++;outcome=null;checker=prepareCheck(q);lastJudged=false;strokes=[];redoStack=[];drawing=null;drawingPointerId=null;
+ q=newQ;number++;outcome=null;checker=prepareCheck(q);lastJudged=false;strokes=[];redoStack=[];drawing=null;drawingPointerId=null;lastFocusedAnswerInput=null;sheet.scrollTop=0;
  $('questionNum').textContent=number;$('topicLabel').textContent=labels[type]||type;$('marksLabel').textContent=q.marks||'';
  $('gradingLabel').textContent=checker.type==='self'?'詳解核對':checker.type==='ineq'?'不等號＋數值批改':'自動批改';
  const main=q.geomBody?`<div class="question-main">${q.text||''}</div>${q.geomBody}`:`<div class="question-main">${q.text||''}</div>`;
@@ -2898,7 +2946,7 @@ function newQuestion(sameTemplate=false){const type=$('topicSelect').value,previ
  $('answerInputs').querySelectorAll('input').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();judge()}}));
  refreshStats();
 }
-function selectChoice(index){if(lastJudged)return;const input=$('answer0');if(!input)return;input.value='ABCD'[index];const opts=$('questionContent').querySelectorAll('.p2-choice');opts.forEach((el,i)=>el.classList.toggle('selected',i===index))}
+function selectChoice(index){if(lastJudged||index<0||index>3)return;const input=$('answer0');if(!input)return;input.value='ABCD'[index];const opts=$('questionContent').querySelectorAll('.p2-choice');opts.forEach((el,i)=>el.classList.toggle('selected',i===index));$('answerInputs').querySelectorAll('[data-mc-choice]').forEach(el=>{const active=el.dataset.mcChoice===input.value;el.classList.toggle('selected',active);el.setAttribute('aria-pressed',String(active))})}
 function solutionHTML(){const lines=(q.ms||[]).map(row=>`<div class="step"><b>${row.sub||''}</b> ${row.sol||''}</div>`).join('');return `<div class="solution"><b>原出卷系統評卷參考</b>${lines}${q.answerLetter?`<div style="font-weight:800;padding-top:8px">正確選項：${q.answerLetter}</div>`:''}</div>`}
 function showSolution(){if(!q)return;$('solutionBox').hidden=false;$('solutionBox').innerHTML=solutionHTML();}
 function checkInequalityAnswers(){
@@ -3002,34 +3050,34 @@ function brushStyle(c,st){
 }
 function renderStroke(st,c=ctx){
  if(!st||!st.points.length)return;
- const w=sheet.clientWidth,h=sheet.clientHeight,pts=st.points;
+ const w=sheetInner.clientWidth,pts=st.points;
  c.save();brushStyle(c,st);c.beginPath();
- c.moveTo(pts[0][0]*w,pts[0][1]*h);
- for(let i=1;i<pts.length;i++)c.lineTo(pts[i][0]*w,pts[i][1]*h);
- if(pts.length===1)c.lineTo(pts[0][0]*w+.1,pts[0][1]*h+.1);
+ c.moveTo(pts[0][0]*w,pts[0][1]);
+ for(let i=1;i<pts.length;i++)c.lineTo(pts[i][0]*w,pts[i][1]);
+ if(pts.length===1)c.lineTo(pts[0][0]*w+.1,pts[0][1]+.1);
  c.stroke();c.restore();
 }
-function clearLive(){liveCtx.clearRect(0,0,sheet.clientWidth,sheet.clientHeight)}
+function clearLive(){liveCtx.clearRect(0,0,sheetInner.clientWidth,sheetInner.clientHeight)}
 function paintLive(){clearLive();if(drawing)renderStroke(drawing,liveCtx)}
 function repaint(){
- ctx.clearRect(0,0,sheet.clientWidth,sheet.clientHeight);
+ ctx.clearRect(0,0,sheetInner.clientWidth,sheetInner.clientHeight);
  for(const st of strokes)renderStroke(st,ctx);
  paintLive();
 }
 function resizeCanvas(){
- const r=sheet.getBoundingClientRect();if(!r.width||!r.height)return;
+ const r=sheetInner.getBoundingClientRect();if(!r.width||!r.height)return;
  const d=Math.min(window.devicePixelRatio||1,2.5),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.height*d));
  // Avoid resetting the backing store on spurious iPad window/keyboard resize events.
  if(canvas.width===w&&canvas.height===h&&liveCanvas.width===w&&liveCanvas.height===h)return;
  for(const c of [canvas,liveCanvas]){c.width=w;c.height=h;c.getContext('2d').setTransform(d,0,0,d,0,0)}
  repaint();
 }
-function posOf(ev){const r=canvas.getBoundingClientRect();return[(ev.clientX-r.left)/r.width,(ev.clientY-r.top)/r.height]}
+function posOf(ev){const r=canvas.getBoundingClientRect();return[(ev.clientX-r.left)/r.width,(ev.clientY-r.top)]}
 function appendPoint(ev){
  if(!drawing)return;
  const p=posOf(ev),prev=drawing.points[drawing.points.length-1];
  // Eliminate identical coalesced samples without losing very short strokes or dots.
- if(!prev||Math.hypot((p[0]-prev[0])*sheet.clientWidth,(p[1]-prev[1])*sheet.clientHeight)>.12)drawing.points.push(p);
+ if(!prev||Math.hypot((p[0]-prev[0])*sheetInner.clientWidth,(p[1]-prev[1]))>.12)drawing.points.push(p);
 }
 function pointerDown(ev){
  if(tool==='off'||(ev.pointerType==='touch'&&$('penOnly').checked))return;
@@ -3070,7 +3118,7 @@ for(const name of ['selectstart','dragstart','contextmenu']){
 }
 // Non-passive touch events are important on older iPadOS WebKit to suppress long-press / pan.
 for(const name of ['touchstart','touchmove']){
- canvas.addEventListener(name,ev=>{if(tool!=='off'&&ev.cancelable)ev.preventDefault()},{passive:false});
+ canvas.addEventListener(name,ev=>{const fingerMayScroll=sheet.classList.contains('expanded')&&$('penOnly').checked;if(tool!=='off'&&!fingerMayScroll&&ev.cancelable)ev.preventDefault()},{passive:false});
 }
 function setInkTool(next){
  tool=next;
@@ -3086,10 +3134,11 @@ $('undoBtn').onclick=()=>{if(strokes.length){redoStack.push(strokes.pop());repai
 $('redoBtn').onclick=()=>{if(redoStack.length){strokes.push(redoStack.pop());repaint()}};
 $('clearBtn').onclick=()=>{if(strokes.length&&confirm('清除本題全部筆跡？')){strokes=[];redoStack=[];drawing=null;drawingPointerId=null;repaint()}};
 window.addEventListener('resize',()=>requestAnimationFrame(resizeCanvas));
-if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>requestAnimationFrame(resizeCanvas)).observe(sheet);
+if(typeof ResizeObserver!=='undefined'){const sheetObserver=new ResizeObserver(()=>requestAnimationFrame(resizeCanvas));sheetObserver.observe(sheet);sheetObserver.observe(sheetInner);}
 // 手寫時鎖定瀏覽器頁面手勢；欄內仍可在「閱讀」模式捲動。
 for(const name of ['gesturestart','gesturechange'])sheet.addEventListener(name,ev=>{if(tool!=='off')ev.preventDefault()},{passive:false});
 setInkTool('pen');
+setSheetLocked($('lockSheet').checked);
 refreshStats();newQuestion(false);
 </script>
 </body>
