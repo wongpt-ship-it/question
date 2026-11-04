@@ -554,28 +554,45 @@ function generateCh1_1(level) {
                 ansCheck: [{ label: '因式分解結果', target: `${commonPlain}(${innerPlain})`, display: `${commonHtml}(${innerHtml})` }]
             };
         } else if (subType === 2) {
-            const vars = pickRandom([['p', 'q'], ['r', 'x', 'y'], ['a', 'b', 'x', 'y']]);
-            const a = randomInt(2, 5), b = randomInt(1, 5);
-            let c = randomInt(2, 5), d = randomInt(-4, 4);
-            while (d === 0 || gcd(a, b) !== 1 || gcd(c, Math.abs(d)) !== 1) d = randomInt(-4, 4) || 1;
-            const v1 = vars[0], v2 = vars[1], v3 = vars[2] || '', v4 = vars[3] || '';
-            const t1 = `${a * c}<i>${v1}</i>${v3 ? `<i>${v3}</i>` : ''} + ${b * c}<i>${v3 || v1}</i>`;
-            const signD = d > 0 ? '+' : '−';
-            const absD = Math.abs(d);
-            const t2 = `${signD} ${a * absD}<i>${v1}</i><i>${v4 || v2}</i> ${signD} ${b * absD}<i>${v4 || v2}</i>`;
-            const expr = `${t1} ${t2}`;
-            const br1Html = `${a}<i>${v1}</i> + ${b}`, br2Html = `${c}${v3 ? `<i>${v3}</i>` : `<i>${v1}</i>`} ${signD} ${absD === 1 ? '' : absD}<i>${v4 || v2}</i>`;
-            const br1Plain = `${a}${v1}+${b}`, br2Plain = `${c}${v3 || v1}${d > 0 ? '+' : '-'}${absD}${v4 || v2}`;
-            return {
-                id: `q_${Date.now()}_${Math.random()}`, type: 'ch1_1', level: 'basic',
-                text: `因式分解 ${expr}。`, marks: '(2分)', vars: [...new Set([v1, v2, v3, v4].filter(Boolean))],
-                subs: [],
-                ms: [
-                    { sub: '', sol: `${expr} = ${c}${v3 ? `<i>${v3}</i>` : `<i>${v1}</i>`}(${br1Html}) ${signD} ${absD === 1 ? '' : absD}<i>${v4 || v2}</i>(${br1Html})` },
-                    { sub: '', sol: `= <b>(${br1Html})(${br2Html})</b>` }
-                ],
-                ansCheck: [{ label: '因式分解結果', target: `(${br1Plain})(${br2Plain})`, display: `(${br1Html})(${br2Html})` }]
-            };
+            // 併項法：支援兩變數 (aq+b)(cp+1) 或三變數 (ar+b)(cx±dy)
+            const mode = pickRandom([1, 2]);
+            let a = randomInt(1, 4), b = randomInt(2, 5);
+            while (gcd(a, b) !== 1) b++;
+            if (mode === 1) {
+                const vars = ['p', 'q'];
+                const c = randomInt(2, 5);
+                const expr = `${a * c}<i>pq</i> + ${b * c}<i>p</i> + ${a === 1 ? '' : a}<i>q</i> + ${b}`;
+                const br1Html = `${a === 1 ? '' : a}<i>q</i> + ${b}`, br2Html = `${c}<i>p</i> + 1`;
+                const br1Plain = `${a}q+${b}`, br2Plain = `${c}p+1`;
+                return {
+                    id: `q_${Date.now()}_${Math.random()}`, type: 'ch1_1', level: 'basic',
+                    text: `因式分解 ${expr}。`, marks: '(2分)', vars,
+                    subs: [],
+                    ms: [
+                        { sub: '', sol: `${expr} = ${c}<i>p</i>(${br1Html}) + (${br1Html})` },
+                        { sub: '', sol: `= <b>(${br1Html})(${br2Html})</b>` }
+                    ],
+                    ansCheck: [{ label: '因式分解結果', target: `(${br1Plain})(${br2Plain})`, display: `(${br1Html})(${br2Html})` }]
+                };
+            } else {
+                const vars = ['r', 'x', 'y'];
+                let c = randomInt(2, 5), d = randomInt(2, 5);
+                while (gcd(c, d) !== 1) d++;
+                const signD = pickRandom(['−', '+']);
+                const expr = `${a * c}<i>rx</i> + ${b * c}<i>x</i> ${signD} ${a * d}<i>ry</i> ${signD} ${b * d}<i>y</i>`;
+                const br1Html = `${a === 1 ? '' : a}<i>r</i> + ${b}`, br2Html = `${c}<i>x</i> ${signD} ${d}<i>y</i>`;
+                const br1Plain = `${a}r+${b}`, br2Plain = `${c}x${signD === '+' ? '+' : '-'}${d}y`;
+                return {
+                    id: `q_${Date.now()}_${Math.random()}`, type: 'ch1_1', level: 'basic',
+                    text: `因式分解 ${expr}。`, marks: '(2分)', vars,
+                    subs: [],
+                    ms: [
+                        { sub: '', sol: `${expr} = ${c}<i>x</i>(${br1Html}) ${signD} ${d}<i>y</i>(${br1Html})` },
+                        { sub: '', sol: `= <b>(${br1Html})(${br2Html})</b>` }
+                    ],
+                    ansCheck: [{ label: '因式分解結果', target: `(${br1Plain})(${br2Plain})`, display: `(${br1Html})(${br2Html})` }]
+                };
+            }
         } else if (subType === 3) {
             const vars = pickRandom([['x', 'y'], ['p', 'q'], ['m', 'n']]);
             const [v1, v2] = vars;
@@ -685,7 +702,9 @@ function generateCh1_1(level) {
             };
         } else {
             const v = pickRandom(['y', 'x', 'm']);
-            const a = pickRandom([2, 3, 4]), d = randomInt(1, 3), b = pickRandom([3, 5, 7]);
+            const a = pickRandom([2, 3, 4]), d = randomInt(1, 3);
+            let b = pickRandom([5, 7]);
+            while (gcd(a, b) !== 1) b += 2;
             const sign = pickRandom(['−', '+']);
             const constVal = sign === '−' ? -a * d - b : -a * d + b;
             const expr = `${a * a}(<i>${v}</i> − ${d})<sup>2</sup> ${sign} ${2 * a * b}(<i>${v}</i> − ${d}) + ${b * b}`;
@@ -700,7 +719,7 @@ function generateCh1_1(level) {
                     { sub: '', sol: `= [${a}(<i>${v}</i> − ${d}) ${sign} ${b}]<sup>2</sup>` },
                     { sub: '', sol: `= <b>${finalHtml}</b>` }
                 ],
-                ansCheck: [{ label: '因式分解結果', target: finalPlain, display: ansHtml }]
+                ansCheck: [{ label: '因式分解結果', target: finalPlain, display: finalHtml }]
             };
         }
     }
@@ -790,8 +809,8 @@ function generateCh1_2(level) {
                 ansCheck: [{ label: '因式分解結果', target: ansPlain, display: ansHtml }]
             };
         } else if (subType === 3) {
-            const d = randomInt(1, 3);
-            const m = randomInt(2, 4);
+            const d = pickRandom([1, 2]);
+            const m = pickRandom([2, 4]);
             const expr = `${m}<i>x</i><sup>2</sup> + ${2 * m - 1}<i>x</i>(<i>x</i> − ${d}) − 2(<i>x</i> − ${d})<sup>2</sup>`;
             const f1x = 3, f1c = -2 * d, f2x = m - 1, f2c = d;
             const f1Html = fmtLinear(f1x, '<i>x</i>', f1c, ''), f2Html = fmtLinear(f2x, '<i>x</i>', f2c, '');
@@ -843,7 +862,13 @@ function generateCh1_3(level) {
         const subType = chooseVariant('ch1_3_b', randomInt(1, 3));
         if (subType === 1) {
             const v = pickRandom(['a', 'x', 'm']);
-            const k = randomInt(3, 8), r = randomInt(2, 5);
+            const cfg = pickRandom([
+                { k: 8, r: 3 },
+                { k: 6, r: 2 },
+                { k: 4, r: 2 },
+                { k: 10, r: 4 }
+            ]);
+            const k = cfg.k, r = cfg.r;
             const partAExpr = `${k}<i>${v}</i><sup>2</sup> − ${k * r * r}`;
             const partBExpr = `${k}<i>${v}</i><sup>2</sup> − ${k * r * r} − (<i>${v}</i> + ${r})<sup>2</sup>`;
             const ansAHtml = `${k}(<i>${v}</i> + ${r})(<i>${v}</i> − ${r})`;
@@ -901,7 +926,9 @@ function generateCh1_3(level) {
             };
         } else {
             const vars = ['x', 'y'];
-            const a = randomInt(2, 4), b = 1, c = randomInt(3, 5), d = -randomInt(2, 5);
+            const a = randomInt(2, 4), b = 1, c = randomInt(3, 5);
+            let d = -randomInt(2, 5);
+            while (gcd(c, Math.abs(d)) !== 1) d--;
             const partAExpr = `−${c}<i>xy</i> + ${Math.abs(d)}<i>y</i>`;
             const partBExpr = fmtQuad(a * c, a * d + b * c, b * d, '<i>x</i>', '');
             const partCExpr = `${partBExpr} − ${c}<i>xy</i> + ${Math.abs(d)}<i>y</i>`;
@@ -1028,7 +1055,9 @@ function generateCh1_3(level) {
 function generateCh1_MC() {
     const subType = chooseVariant('ch1_mc', randomInt(1, 5));
     if (subType === 1) {
-        const a = randomInt(2, 4), c = randomInt(3, 6), b = randomInt(2, 5), d = randomInt(1, 5);
+        let a = randomInt(2, 4), c = randomInt(3, 6), b = randomInt(2, 5), d = randomInt(1, 5);
+        while (gcd(a, b) !== 1) b++;
+        while (gcd(c, d) !== 1) d++;
         const A = a * c, B = a * d + b * c, C = b * d;
         const expr = `−${C} + ${B}<i>d</i> − ${A}<i>d</i><sup>2</sup>`;
         const correct = `−(${a}<i>d</i> − ${b})(${c}<i>d</i> − ${d})`;
@@ -1042,7 +1071,8 @@ function generateCh1_MC() {
             `= ${correct}`
         ], subType);
     } else if (subType === 2) {
-        const a = randomInt(2, 4), b = randomInt(1, 3), d = randomInt(2, 5);
+        let a = randomInt(2, 4), b = randomInt(1, 3), d = randomInt(2, 5);
+        while (gcd(a, b) !== 1) b++;
         const B = b - a * d, C = -b * d;
         const expr = `${a}<i>a</i> + ${b === 1 ? '' : b}<i>b</i> + ${fmtQuad(a, B, C, '<i>a</i>', '<i>b</i>')}`;
         const br1 = `${a}<i>a</i> + ${b === 1 ? '' : b}<i>b</i>`;
@@ -1404,17 +1434,17 @@ function buildNumberLineSVG(op, valText, isNeg = false) {
     const xZero = isNeg ? 150 : 75;
     const xVal = isNeg ? 85 : 145;
     const arrowEnd = isRight ? 205 : 25;
-    const arrowPts = isRight ? "205,22 197,18 197,26" : "25,22 33,18 33,26";
-    return `<svg viewBox="0 0 235 64" style="max-width:230px;height:auto;display:block;margin:4px 0">
-        <line x1="15" y1="42" x2="215" y2="42" stroke="#19233c" stroke-width="1.6"/>
-        <polygon points="218,42 210,38 210,46" fill="#19233c"/>
-        <line x1="${xZero}" y1="38" x2="${xZero}" y2="46" stroke="#19233c" stroke-width="1.5"/>
-        <text x="${xZero}" y="58" font-size="12" text-anchor="middle" fill="#19233c" font-family="Times New Roman">0</text>
-        <line x1="${xVal}" y1="22" x2="${xVal}" y2="42" stroke="#243a83" stroke-width="1.6"/>
-        <line x1="${xVal}" y1="22" x2="${arrowEnd}" y2="22" stroke="#243a83" stroke-width="2"/>
+    const arrowPts = isRight ? "205,18 197,14 197,22" : "25,18 33,14 33,22";
+    return `<svg viewBox="0 0 235 68" style="max-width:235px;height:auto;display:block;margin:4px 0">
+        <line x1="15" y1="38" x2="215" y2="38" stroke="#19233c" stroke-width="1.6"/>
+        <polygon points="218,38 210,34 210,42" fill="#19233c"/>
+        <line x1="${xZero}" y1="34" x2="${xZero}" y2="42" stroke="#19233c" stroke-width="1.5"/>
+        <text x="${xZero}" y="57" font-size="13" text-anchor="middle" fill="#19233c" font-family="Times New Roman">0</text>
+        <line x1="${xVal}" y1="18" x2="${xVal}" y2="38" stroke="#243a83" stroke-width="1.6"/>
+        <line x1="${xVal}" y1="18" x2="${arrowEnd}" y2="18" stroke="#243a83" stroke-width="2"/>
         <polygon points="${arrowPts}" fill="#243a83"/>
-        <circle cx="${xVal}" cy="22" r="4.2" fill="${isClosed ? '#243a83' : '#ffffff'}" stroke="#243a83" stroke-width="1.8"/>
-        <text x="${xVal}" y="58" font-size="12" text-anchor="middle" fill="#243a83" font-weight="bold" font-family="Times New Roman">${valText}</text>
+        <circle cx="${xVal}" cy="18" r="4.2" fill="${isClosed ? '#243a83' : '#ffffff'}" stroke="#243a83" stroke-width="1.8"/>
+        <text x="${xVal}" y="57" font-size="13" text-anchor="middle" fill="#243a83" font-weight="bold" font-family="Times New Roman">${valText}</text>
     </svg>`;
 }
 
@@ -1423,12 +1453,17 @@ function generateCh3_1(level) {
     if (actualLevel === 'basic') {
         const subType = chooseVariant('ch3_1_b', randomInt(1, 3));
         if (subType === 1) {
+            // 形如 rhs [op] -c(b + ax)，例如 -20 >= -4(3 + 3x) 或 5 < -3(2 + 3x)
             const a = randomInt(2, 5), b = randomInt(1, 6), c = randomInt(2, 5);
             const op = pickRandom(['>', '<', '>=', '<=']);
-            const rhs = -c * b - randomInt(4, 15);
+            const rhs = -c * b + pickRandom([-15, -12, -9, -8, -6, 6, 8, 9, 11, 14]);
             const expr = `${rhs} ${ineqHtmlMap[op]} −${c}(${b} + ${a}<i>x</i>)`;
-            const num = rhs + c * b, den = -c * a;
-            const finalOp = flipIneq[op];
+            // 展開：rhs [op] -cb - cax
+            // 移項方法一：rhs + cb [op] -cax => (rhs + cb)/(-ca) [flip(op)] x => x [op] (-cb - rhs)/(ca)
+            // 移項方法二：cax [op] -cb - rhs => x [op] (-cb - rhs)/(ca)
+            const lhsConst = rhs + c * b;
+            const num = -c * b - rhs, den = c * a;
+            const finalOp = op; // x 移至左方後係數為 +ca，不等號方向與原式 op 相同
             const valPlain = plainFrac(num, den), valHtml = simplifyFrac(num, den);
             return {
                 id: `q_${Date.now()}_${Math.random()}`, type: 'ch3_1', level: 'basic',
@@ -1436,7 +1471,8 @@ function generateCh3_1(level) {
                 subs: [],
                 ms: [
                     { sub: '', sol: `${rhs} ${ineqHtmlMap[op]} −${c * b} − ${c * a}<i>x</i>` },
-                    { sub: '', sol: `${c * a}<i>x</i> ${ineqHtmlMap[op]} ${-c * b - rhs} &rArr; <b><i>x</i> ${ineqHtmlMap[finalOp]} ${valHtml}</b>` },
+                    { sub: '', sol: `${lhsConst} ${ineqHtmlMap[op]} −${c * a}<i>x</i> &nbsp;（或 ${c * a}<i>x</i> ${ineqHtmlMap[op]} ${num}）` },
+                    { sub: '', sol: `${valHtml} ${ineqHtmlMap[flipIneq[op]]} <i>x</i> &rArr; <b><i>x</i> ${ineqHtmlMap[finalOp]} ${valHtml}</b>` },
                     { sub: '數線圖示', sol: buildNumberLineSVG(finalOp, valPlain, (num / den) < 0) }
                 ],
                 ineqCheck: [{ label: '不等式的解', op: finalOp, val: num / den, display: `x ${ineqHtmlMap[finalOp]} ${valHtml}` }]
@@ -1515,15 +1551,17 @@ function generateCh3_1(level) {
                 subs: [],
                 ms: [
                     { sub: '', sol: `兩邊同乘以 20： 5(${a1}<i>x</i> − ${b1}) ${ineqHtmlMap[op]} 4(${a2}<i>x</i> − ${b2})` },
+                    { sub: '', sol: `${5 * a1}<i>x</i> − ${5 * b1} ${ineqHtmlMap[op]} ${4 * a2}<i>x</i> − ${4 * b2}` },
                     { sub: '', sol: `${coef}<i>x</i> ${ineqHtmlMap[op]} ${rhs} &rArr; <b><i>x</i> ${ineqHtmlMap[finalOp]} ${valHtml}</b>` },
                     { sub: '數線圖示', sol: buildNumberLineSVG(finalOp, valPlain, (rhs / coef) < 0) }
                 ],
                 ineqCheck: [{ label: '不等式的解', op: finalOp, val: rhs / coef, display: `x ${ineqHtmlMap[finalOp]} ${valHtml}` }]
             };
         } else {
-            const a1 = randomInt(3, 6), b1 = randomInt(1, 4);
+            let a1 = randomInt(3, 6), b1 = randomInt(1, 4);
             const a2 = randomInt(1, 3), b2 = randomInt(1, 3);
             const a3 = randomInt(2, 4), b3 = randomInt(1, 4);
+            while (6 * a1 - 2 * a2 - 3 * a3 === 0) a1++;
             const op = pickRandom(['>=', '<=', '>', '<']);
             const expr = `${buildFrac(`${a1}<i>x</i> − ${b1}`, 2)} − ${buildFrac(`${a2}<i>x</i> + ${b2}`, 6)} ${ineqHtmlMap[op]} ${buildFrac(`${a3}<i>x</i> − ${b3}`, 4)}`;
             const coef = 6 * a1 - 2 * a2 - 3 * a3;
@@ -1572,11 +1610,12 @@ function generateCh3_2(level) {
                 ansCheck: [{ label: '(b) 所有非負整數', target: list.join(','), display: list.join('、'), mode: 'int_list' }]
             };
         } else {
-            const negCount = randomInt(2, 5);
-            const a = randomInt(4, 6);
-            const b = randomInt(6, 12);
-            const k = (b + (a - 2) * negCount) / 2;
-            const expr = `${buildFrac(`${a}<i>x</i> − ${2 * k}`, 2)} &ge; <i>x</i> − ${b}`;
+            // (ax - C)/2 >= x - b => ax - C >= 2x - 2b => (a-2)x >= C - 2b = -(a-2)*negCount => x >= -negCount
+            const negCount = randomInt(2, 4);
+            const a = randomInt(3, 5);
+            const b = randomInt(8, 14);
+            const C = 2 * b - (a - 2) * negCount;
+            const expr = `${buildFrac(`${a}<i>x</i> − ${C}`, 2)} &ge; <i>x</i> − ${b}`;
             return {
                 id: `q_${Date.now()}_${Math.random()}`, type: 'ch3_2', level: 'basic',
                 text: ``, marks: '(4分)', vars: ['x'],
@@ -1585,7 +1624,7 @@ function generateCh3_2(level) {
                     { label: '(b)', text: `求滿足 (a) 中的不等式的負整數的數目。` }
                 ],
                 ms: [
-                    { sub: '(a)', sol: `${a}<i>x</i> − ${2 * k} &ge; 2<i>x</i> − ${2 * b} &rArr; ${a - 2}<i>x</i> &ge; ${2 * k - 2 * b} &rArr; <b><i>x</i> &ge; −${negCount}</b>` },
+                    { sub: '(a)', sol: `${a}<i>x</i> − ${C} &ge; 2<i>x</i> − ${2 * b} &rArr; ${a - 2}<i>x</i> &ge; ${C - 2 * b} &rArr; <b><i>x</i> &ge; −${negCount}</b>` },
                     { sub: '(b)', sol: `滿足該不等式的負整數共有 <b>${negCount}</b> 個。` }
                 ],
                 ineqCheck: [{ label: '(a) x 值的範圍', op: '>=', val: -negCount, display: `x >= -${negCount}` }],
@@ -1822,8 +1861,9 @@ function generateCh4_1(level) {
                 ]
             };
         } else if (subType === 2) {
-            const n1 = pickRandom([120, 200, 300, 500]), n2 = pickRandom([80, 200, 300, 500]);
-            const p1 = pickRandom([10, 15, 20]), p2 = pickRandom([5, 10, 20]);
+            const pair = pickRandom([[120, 80], [240, 160], [300, 200], [500, 500], [450, 350]]);
+            const [n1, n2] = pair;
+            const p1 = pickRandom([10, 20]), p2 = pickRandom([5, 10, 20]);
             const oldTot = n1 + n2;
             const newTot = Math.round(n1 * (1 + p1 / 100) + n2 * (1 - p2 / 100));
             const pctChange = +(((newTot - oldTot) / oldTot) * 100).toFixed(2);
@@ -1897,7 +1937,7 @@ function generateCh4_1(level) {
                 ansCheck: [{ label: 'x 的值', target: `${xAns}`, display: `${xAns}`, mode: 'num' }]
             };
         } else {
-            const wDec = pickRandom([20, 25, 50]);
+            const wDec = pickRandom([20, 50, 60]);
             const lInc = +((1 / (1 - wDec / 100) - 1) * 100).toFixed(2);
             return {
                 id: `q_${Date.now()}_${Math.random()}`, type: 'ch4_1', level: 'advanced',
@@ -2119,7 +2159,7 @@ function generateCh4_MC() {
  // ==================== 統一題目分發器 ====================
 function createQuestionByType(topic, level) {
     if (topic === 'ch1_all') {
-        const sub = pickRandom(['ch1_1', 'ch1_2', 'ch1_3', 'ch1_mc']);
+        const sub = chooseVariant('ch1_sub', pickRandom(['ch1_1', 'ch1_2', 'ch1_3', 'ch1_mc']));
         return sub === 'ch1_mc' ? generateCh1_MC() : (sub === 'ch1_1' ? generateCh1_1(level) : (sub === 'ch1_2' ? generateCh1_2(level) : generateCh1_3(level)));
     }
     if (topic === 'ch1_1') return generateCh1_1(level);
@@ -2128,7 +2168,7 @@ function createQuestionByType(topic, level) {
     if (topic === 'ch1_mc') return generateCh1_MC();
 
     if (topic === 'ch2_all') {
-        const sub = pickRandom(['ch2_1', 'ch2_2', 'ch2_mc']);
+        const sub = chooseVariant('ch2_sub', pickRandom(['ch2_1', 'ch2_2', 'ch2_mc']));
         return sub === 'ch2_mc' ? generateCh2_MC() : (sub === 'ch2_1' ? generateCh2_1(level) : generateCh2_2(level));
     }
     if (topic === 'ch2_1') return generateCh2_1(level);
@@ -2136,7 +2176,7 @@ function createQuestionByType(topic, level) {
     if (topic === 'ch2_mc') return generateCh2_MC();
 
     if (topic === 'ch3_all') {
-        const sub = pickRandom(['ch3_1', 'ch3_2', 'ch3_3', 'ch3_mc']);
+        const sub = chooseVariant('ch3_sub', pickRandom(['ch3_1', 'ch3_2', 'ch3_3', 'ch3_mc']));
         return sub === 'ch3_mc' ? generateCh3_MC() : (sub === 'ch3_1' ? generateCh3_1(level) : (sub === 'ch3_2' ? generateCh3_2(level) : generateCh3_3(level)));
     }
     if (topic === 'ch3_1') return generateCh3_1(level);
@@ -2145,7 +2185,7 @@ function createQuestionByType(topic, level) {
     if (topic === 'ch3_mc') return generateCh3_MC();
 
     if (topic === 'ch4_all') {
-        const sub = pickRandom(['ch4_1', 'ch4_2', 'ch4_3', 'ch4_mc']);
+        const sub = chooseVariant('ch4_sub', pickRandom(['ch4_1', 'ch4_2', 'ch4_3', 'ch4_mc']));
         return sub === 'ch4_mc' ? generateCh4_MC() : (sub === 'ch4_1' ? generateCh4_1(level) : (sub === 'ch4_2' ? generateCh4_2(level) : generateCh4_3(level)));
     }
     if (topic === 'ch4_1') return generateCh4_1(level);
@@ -2363,11 +2403,17 @@ function selectChoice(index) {
 }
 
 function newQuestion(sameTemplate = false) {
-    const topic = $('topicSelect').value, level = $('levelSelect').value, previous = q;
+    const topic = $('topicSelect').value;
+    const level = (sameTemplate && q && q.level) ? q.level : $('levelSelect').value;
+    const previous = q;
     let newQ = null;
     for (let i = 0; i < 40; i++) {
+        recordedVariants = {};
+        variantOverride = (sameTemplate && previous && previous.practiceVariants) ? previous.practiceVariants : null;
         try { newQ = createQuestionByType(topic, level); } catch (e) { console.error('出題出錯', e); newQ = null; }
+        variantOverride = null;
         if (!newQ) continue;
+        newQ.practiceVariants = { ...recordedVariants };
         const key = newQ.text + (newQ.subs ? newQ.subs.map(s => s.text).join('') : '');
         if (!previous || key !== (previous.text + (previous.subs ? previous.subs.map(s => s.text).join('') : ''))) break;
     }
@@ -2668,3 +2714,4 @@ newQuestion(false);
 </script>
 </body>
 </html>
+ 
