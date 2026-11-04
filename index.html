@@ -2446,7 +2446,16 @@ $('topicSelect').addEventListener('change', refreshStats);
 $('levelSelect').addEventListener('change', () => newQuestion(false));
 $('nextBtn').addEventListener('click', () => newQuestion(outcome === 'wrong'));
 $('checkBtn').addEventListener('click', judge);
-$('showStepsBtn').addEventListener('click', () => { $('solutionBox').hidden ? showSolution() : setInputCollapsed(false); $('solutionBox').hidden = !$('solutionBox').hidden; });
+$('showStepsBtn').addEventListener('click', () => {
+    if ($('solutionBox').hidden) {
+        showSolution();
+        $('showStepsBtn').textContent = '隱藏詳解';
+    } else {
+        $('solutionBox').hidden = true;
+        setInputCollapsed(false);
+        $('showStepsBtn').textContent = '詳解步驟';
+    }
+});
 $('resetStats').addEventListener('click', () => { if (confirm('確定清除本機的練習統計？')) { stats = {}; keepStats(); refreshStats(); } });
 
 // ==================== Apple Pencil 手寫畫布引擎 ====================
