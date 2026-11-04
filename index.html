@@ -2,19 +2,19 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#273a7a">
 <title>中三數學自主練習｜iPad 手寫及動態生成系統</title>
 <style>
 :root{--ink:#19233c;--muted:#61708a;--blue:#3559d7;--bglight:#f2f5fc;--edge:#dce3f1;--green:#097c55;--red:#c24141}
 *{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+html,body{position:fixed;inset:0;width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none;touch-action:none;-webkit-overflow-scrolling:auto}
 body{display:flex;flex-direction:column;min-height:0;color:var(--ink);font-family:system-ui,-apple-system,"PingFang HK","Microsoft JhengHei",sans-serif;background:var(--bglight)}
 button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #9ac8ff;outline-offset:1px}
-header{flex:0 0 auto;min-height:48px;background:#243a83;color:white;padding:7px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+header{flex:0 0 auto;min-height:46px;background:#243a83;color:white;padding:6px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px;touch-action:none}
 .brand{font-weight:850;font-size:18px;letter-spacing:.2px;white-space:nowrap}.brand small{display:inline-block;margin-left:9px;opacity:.78;font-size:11px;font-weight:500}
 .header-summary{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;font-weight:650;font-size:12px}.header-summary span{background:#ffffff22;border:1px solid #ffffff22;border-radius:18px;padding:4px 9px;white-space:nowrap}
-.top-controls{flex:0 0 auto;padding:7px 10px 0;display:grid;grid-template-columns:minmax(340px,1.15fr) minmax(0,1.85fr);gap:7px}
+.top-controls{flex:0 0 auto;padding:7px 10px 0;display:grid;grid-template-columns:minmax(340px,1.15fr) minmax(0,1.85fr);gap:7px;touch-action:none}
 .card{min-width:0;background:white;border:1px solid var(--edge);box-shadow:0 2px 10px #19326d08;border-radius:11px;margin:0;padding:9px 11px}
 .card h2{margin:0 0 8px;font-size:16px}.muted{color:var(--muted);font-size:12px;line-height:1.45}
 .setup{display:flex;align-items:center;gap:7px;min-width:0;flex-wrap:nowrap}
@@ -22,22 +22,30 @@ header{flex:0 0 auto;min-height:48px;background:#243a83;color:white;padding:7px 
 .setup label.topic-label{flex:1.45}
 .setup label.level-label{flex:0.85}
 select,input[type=text],input[type=number],textarea{border-radius:8px;padding:7px 9px;border:1px solid #bfcbe0;background:white;color:var(--ink);width:100%;min-width:0;font-size:15px}
-select{height:36px;padding:5px 7px;font-size:13px}textarea{min-height:70px;resize:vertical}
-.btn{border:1px solid var(--edge);border-radius:8px;background:white;color:var(--ink);font-weight:730;padding:7px 10px;min-height:34px;font-size:13px;white-space:nowrap}.btn:hover{background:#f6f8fc}.btn.primary{border-color:var(--blue);background:var(--blue);color:white}.btn.primary:hover{background:#2748bb}.btn.green{background:#108562;color:white;border-color:#108562}.btn.outline{color:var(--blue);border-color:#9fb3ef}.btn:disabled{opacity:.45;cursor:not-allowed}
+select{height:35px;padding:4px 7px;font-size:13px}textarea{min-height:64px;resize:none}
+.btn{border:1px solid var(--edge);border-radius:8px;background:white;color:var(--ink);font-weight:730;padding:7px 10px;min-height:34px;font-size:13px;white-space:nowrap;touch-action:manipulation}.btn:hover{background:#f6f8fc}.btn.primary{border-color:var(--blue);background:var(--blue);color:white}.btn.primary:hover{background:#2748bb}.btn.green{background:#108562;color:white;border-color:#108562}.btn.green:hover{background:#0c6e50}.btn.outline{color:var(--blue);border-color:#9fb3ef}.btn:disabled{opacity:.45;cursor:not-allowed}
 .controls{padding:6px 8px;display:flex;align-items:center;min-width:0}
-.toolbar{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;white-space:nowrap;min-width:0;width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.toolbar::-webkit-scrollbar{display:none}.toolbar .tool{flex:0 0 auto;border-radius:8px;border:1px solid #cfdaef;padding:6px 8px;background:white;font-size:12px;font-weight:700;min-height:32px;line-height:1}.toolbar .tool.active{background:#e9efff;border-color:#607fe2;color:#263eaf}.toolbar .tool.color-active{border:2px solid #476ce3;padding:5px}.color-dot{width:18px;height:18px;border:1px solid #ddd;border-radius:50%;display:block}.separator{flex:0 0 1px;width:1px;height:21px;background:#d4dcec;margin:0 2px}
+.toolbar{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;white-space:nowrap;min-width:0;width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-x}
+.toolbar::-webkit-scrollbar{display:none}.toolbar .tool{flex:0 0 auto;border-radius:8px;border:1px solid #cfdaef;padding:6px 8px;background:white;font-size:12px;font-weight:700;min-height:32px;line-height:1;touch-action:manipulation}.toolbar .tool.active{background:#e9efff;border-color:#607fe2;color:#263eaf}.toolbar .tool.color-active{border:2px solid #476ce3;padding:5px}.color-dot{width:18px;height:18px;border:1px solid #ddd;border-radius:50%;display:block}.separator{flex:0 0 1px;width:1px;height:21px;background:#d4dcec;margin:0 2px}
 .pen-toggle{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:650;color:#52617a;white-space:nowrap;padding:0 4px}.pen-toggle input{width:15px;height:15px;margin:0;accent-color:var(--blue)}
 main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 10px 10px;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(310px,.88fr);gap:9px;overflow:hidden;align-items:stretch}
-.left-col,.right-col{min-width:0;min-height:0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.left-col{display:flex;flex-direction:column}
-.left-col>.question-panel{flex:1 0 auto;min-height:100%;display:flex;flex-direction:column}
-.right-col{display:flex;flex-direction:column;gap:8px}
+.left-col,.right-col{min-width:0;min-height:0;max-height:100%;overflow:hidden;display:flex;flex-direction:column}
+.left-col>.question-panel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.right-col{gap:8px}
 .question-panel{padding:10px 11px}
-.title-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}.title-row h2{margin:2px 0 0;font-size:16px}.eyebrow{font-weight:750;letter-spacing:.3px;color:var(--blue);font-size:11px}
+.title-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px;flex:0 0 auto}.title-row h2{margin:2px 0 0;font-size:16px}.eyebrow{font-weight:750;letter-spacing:.3px;color:var(--blue);font-size:11px}
 .statusbar{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.pill{border-radius:16px;padding:4px 8px;background:#edf2ff;color:#3f54a2;font-weight:750;font-size:11px;white-space:nowrap}
 .pill.basic{background:#e7f7ef;color:#0a6b48}.pill.advanced{background:#ffefef;color:#b43232}.pill.mc{background:#eef3ff;color:#2c4cb8}
-.sheet{position:relative;display:block;flex:1 1 auto;min-height:0;border:1px solid #d9e1f1;border-radius:10px;background:white;overflow:hidden;isolation:isolate}.sheet-inner{position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:100%}.sheet.expanded{height:0;min-height:0;flex:1 1 0px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}.sheet.expanded .sheet-inner{height:auto;min-height:calc(100% + 900px)}.sheet.expanded .workspace{flex:0 0 900px;min-height:900px}.sheet.expanded #inkCanvas{touch-action:pan-y}.sheet.expanded.touch-draw #inkCanvas{touch-action:none}
+
+/* 題目與手寫畫布容器：鎖定與解鎖均保持相同內部高度，確保切換鎖定時停留在原位不跳回頂端 */
+.sheet{position:relative;display:block;height:0;min-height:0;flex:1 1 0px;border:1px solid #d9e1f1;border-radius:10px;background:white;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch;isolation:isolate}
+.sheet.locked{overflow-y:hidden;touch-action:none}
+.sheet.expanded{overflow-y:auto}
+.sheet-inner{position:relative;display:flex;flex-direction:column;width:100%;height:auto;min-height:calc(100% + 900px)}
+.sheet.expanded #inkCanvas{touch-action:pan-y}
+.sheet.expanded.touch-draw #inkCanvas{touch-action:none}
+.sheet.locked #inkCanvas{touch-action:none}
+
 .question-content{padding:11px 14px 4px;position:relative;z-index:0;flex:0 0 auto;font-family:"Times New Roman","PingFang HK","Microsoft JhengHei",serif;font-size:18px;line-height:1.6;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}
 .question-content p{margin:5px 0}.question-main{margin-bottom:8px;font-weight:560}.part{display:flex;gap:8px;align-items:baseline;margin:8px 0}.partlabel{font-weight:750;white-space:nowrap;font-family:system-ui,sans-serif;font-size:15px;color:#293c66}
 .geom-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(135px,215px);gap:10px;align-items:start}
@@ -47,32 +55,42 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
 .data-table th,.data-table td{border:1px solid #bfcbe0;padding:5px 10px;text-align:center}
 .data-table th{background:#f0f4fc;font-weight:750;color:#243a73}
 .p2-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0 6px}.p2-choice{display:flex;align-items:baseline;gap:7px;padding:7px 9px;border:1px solid #e3e8f3;border-radius:8px;cursor:pointer;font-family:"Times New Roman","PingFang HK",serif;background:#fbfcff;font-size:16px}.p2-choice b{font-weight:700;min-width:20px;font-family:system-ui,sans-serif}.p2-choice.selected{border-color:#6f91f0;background:#e8efff}.p2-choice:hover{border-color:#8fa7e4}
-.workspace{flex:1 1 auto;margin:5px 10px 9px;border:1px dashed #cfd9ed;border-radius:9px;background:repeating-linear-gradient(to bottom,#fff,#fff 33px,#e8edf6 34px);height:auto;min-height:175px;position:relative}
+.workspace{flex:0 0 900px;min-height:900px;margin:5px 10px 9px;border:1px dashed #cfd9ed;border-radius:9px;background:repeating-linear-gradient(to bottom,#fff,#fff 33px,#e8edf6 34px);position:relative}
 .sheet.inking,.sheet.inking *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important}
 #inkCanvas,#liveInkCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #inkCanvas{z-index:2;cursor:crosshair}#inkCanvas.off{pointer-events:none}#liveInkCanvas{z-index:3;pointer-events:none}
-.answers{display:flex;flex:1 1 auto;flex-direction:column;gap:7px;padding:11px;min-height:0}.answers .title-row{margin:0}.answers .title-row h2{font-size:16px}
-.input-collapsible{display:flex;flex-direction:column;gap:7px;transition:all .2s ease}
+
+/* 右側作答區與獨立底部「下一題」按鈕欄 */
+.answers{display:flex;flex:1 1 auto;flex-direction:column;gap:6px;padding:10px 11px;min-height:0;overflow:hidden}.answers .title-row{margin:0}.answers .title-row h2{font-size:16px}
+.input-collapsible{display:flex;flex-direction:column;gap:6px;flex:0 0 auto}
 .input-collapsible[hidden]{display:none!important}
-.collapsed-banner{padding:6px 10px;border-radius:8px;background:#f0f4ff;border:1px dashed #b4c5ef;color:#2c468c;font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.collapsed-banner{flex:0 0 auto;padding:5px 9px;border-radius:8px;background:#f0f4ff;border:1px dashed #b4c5ef;color:#2c468c;font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .collapsed-banner[hidden]{display:none!important}
-.answer-grid{display:flex;flex-direction:column;align-items:stretch;gap:7px}.answer-item{min-width:0;width:100%}.answer-item label{font-size:12px;font-weight:750;display:block;margin-bottom:3px;color:#2b3d63}.answer-item input,.answer-item textarea{padding:7px 9px;min-height:36px;font-size:16px;width:100%;max-width:340px;font-family:"Times New Roman",system-ui,serif}.answer-item textarea{min-height:62px;max-width:100%}
-.answer-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:2px 0 0}.answer-actions .btn{min-height:36px}
+.answer-grid{display:flex;flex-direction:column;align-items:stretch;gap:6px;max-height:24vh;overflow-y:auto;overscroll-behavior:contain}.answer-item{min-width:0;width:100%}.answer-item label{font-size:12px;font-weight:750;display:block;margin-bottom:3px;color:#2b3d63}.answer-item input,.answer-item textarea{padding:6px 9px;min-height:34px;font-size:16px;width:100%;max-width:340px;font-family:"Times New Roman",system-ui,serif}.answer-item textarea{min-height:58px;max-width:100%}
+.answer-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:1px 0 0;flex:0 0 auto}.answer-actions .btn{min-height:35px}
 .var-strip-wrap{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:4px 6px;background:#f4f7fe;border:1px solid #dce5f7;border-radius:8px;max-width:340px}
 .var-strip-wrap[hidden]{display:none!important}
 .var-strip-label{font-size:11px;font-weight:750;color:#4f6185;margin-right:2px}
-.var-key{min-width:34px;min-height:30px;padding:3px 9px;border-radius:6px;border:1px solid #b8c9ee;background:white;color:#1e3a8a;font-weight:750;font-size:15px;font-style:italic;font-family:"Times New Roman",serif;touch-action:manipulation}
+.var-key{min-width:34px;min-height:29px;padding:2px 9px;border-radius:6px;border:1px solid #b8c9ee;background:white;color:#1e3a8a;font-weight:750;font-size:15px;font-style:italic;font-family:"Times New Roman",serif;touch-action:manipulation}
 .var-key:active{background:#dbe7ff}
-.question-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.lock-toggle{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid #d9e2f2;border-radius:7px;background:#f7f9fd;color:#3e4d69;font-size:11px;font-weight:700;white-space:nowrap;vertical-align:middle}.lock-toggle input{width:15px;height:15px;margin:0;accent-color:var(--blue)}
-.numeric-keypad{width:100%;max-width:340px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:1px 0 2px}.numeric-key{min-width:0;min-height:33px;padding:4px 2px;border:1px solid #d4deef;border-radius:7px;background:#f7f9fe;color:#273958;font-size:14px;font-weight:750;touch-action:manipulation}.numeric-key:active{background:#e5edff;border-color:#829ce5}.numeric-key.special{background:#edf2ff;color:#2444a7}.numeric-key.danger{background:#fff1f1;border-color:#f0caca;color:#a43e3e}.numeric-keypad[hidden]{display:none!important}
-.mc-answer-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;width:100%;max-width:340px}.mc-answer-button{min-height:46px;border:1px solid #cbd6eb;border-radius:9px;background:#f8faff;color:#253958;font-size:19px;font-weight:850}.mc-answer-button.selected{background:#e7efff;border:2px solid #4169d4;color:#2344a9}
-.ineq-answer{padding:7px 8px;border:1px solid #dfe6f3;border-radius:9px;background:#fbfcff;max-width:340px}.ineq-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:4px}.ineq-x{font-weight:800;min-width:15px;font-family:"Times New Roman",serif;font-style:italic;font-size:17px}.operator-pick{display:flex;gap:3px;flex:0 0 auto}.operator-pick button{min-width:34px;height:32px;padding:2px 5px;border:1px solid #d2dcee;border-radius:7px;background:white;color:#273755;font-weight:800;font-size:15px}.operator-pick button.active{background:#e8efff;border:2px solid #5578de;color:#243eaa}.ineq-row input{flex:1;min-width:60px;max-width:120px;height:33px;padding:5px 7px}
-.result{margin-top:2px;padding:9px 10px;border-radius:9px;border:1px solid #cad6eb;background:#f7f9fe;line-height:1.5;font-size:13px}.result.success{background:#eaf8f1;border-color:#a2dcc2;color:#075739}.result.wrong{background:#fff0f0;border-color:#ffc0c0;color:#9a3030}.result.notice{background:#fff8e7;border-color:#ead5a1;color:#80551c}.result h3{font-size:14px;margin:0 0 4px}
-.solution{padding:10px 12px;background:#f8faff;border:1px solid #d7e1f7;border-radius:9px;color:#263652;font-size:14px;line-height:1.65;font-family:"Times New Roman","PingFang HK",serif}.solution .step{margin:7px 0;border-bottom:1px solid #e3eaf6;padding-bottom:6px}.solution .step:last-child{border:0}.solution b{color:#3452b0;font-family:system-ui,sans-serif}
-#solutionBox{flex:1 1 auto;max-height:min(62vh,520px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}#solutionBox:not([hidden]){min-height:190px}#solutionBox[hidden]{display:none!important}
-.progress-card{padding:9px 11px;flex:0 0 auto}.progress-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.progress-card h2{font-size:13px;margin:0}.progressline{height:6px;border-radius:8px;background:#e8edfa;overflow:hidden;margin:6px 0}.progressfill{height:100%;background:var(--blue);width:0%;transition:width .25s}.mini{font-size:11px;color:var(--muted)}
-@media(max-width:960px){.top-controls{grid-template-columns:1fr;gap:6px}.controls{min-height:43px}}
-@media(max-width:680px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}header{padding:9px 11px}.brand{font-size:16px}.brand small{display:none}.header-summary{font-size:10px}.top-controls{display:flex;flex-direction:column;padding:7px 8px 0}.setup{flex-wrap:wrap}.setup label{min-width:100%}.controls{overflow:hidden}.toolbar{overflow-x:auto}.pen-toggle{font-size:10px}main{display:block;height:auto;max-height:none;overflow:visible;padding:7px 8px}.left-col,.right-col{max-height:none;overflow:visible}.left-col{display:block;margin-bottom:8px}.left-col>.question-panel{min-height:0;display:block}.sheet{display:block;min-height:0;height:calc(100vh - 320px)}.sheet.expanded{height:calc(100vh - 320px);flex:none}.sheet-inner{height:100%;min-height:100%}.sheet.expanded .sheet-inner{min-height:calc(100% + 900px)}.sheet.expanded .workspace{height:900px;min-height:900px}.workspace{height:auto;min-height:155px}.question-content{font-size:16px;padding:10px 11px}.numeric-keypad{max-width:100%}.right-col{display:flex}.p2-choice-grid{grid-template-columns:1fr}.geom-wrap{grid-template-columns:1fr}#solutionBox{max-height:460px}}
+.question-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.lock-toggle{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid #d9e2f2;border-radius:7px;background:#f7f9fd;color:#3e4d69;font-size:11px;font-weight:700;white-space:nowrap;vertical-align:middle;cursor:pointer}.lock-toggle input{width:15px;height:15px;margin:0;accent-color:var(--blue)}
+.numeric-keypad{width:100%;max-width:340px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:1px 0}.numeric-key{min-width:0;min-height:32px;padding:3px 2px;border:1px solid #d4deef;border-radius:7px;background:#f7f9fe;color:#273958;font-size:14px;font-weight:750;touch-action:manipulation}.numeric-key:active{background:#e5edff;border-color:#829ce5}.numeric-key.special{background:#edf2ff;color:#2444a7}.numeric-key.danger{background:#fff1f1;border-color:#f0caca;color:#a43e3e}.numeric-keypad[hidden]{display:none!important}
+.mc-answer-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;width:100%;max-width:340px}.mc-answer-button{min-height:44px;border:1px solid #cbd6eb;border-radius:9px;background:#f8faff;color:#253958;font-size:19px;font-weight:850;touch-action:manipulation}.mc-answer-button.selected{background:#e7efff;border:2px solid #4169d4;color:#2344a9}
+.ineq-answer{padding:6px 8px;border:1px solid #dfe6f3;border-radius:9px;background:#fbfcff;max-width:340px}.ineq-row{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:4px}.ineq-x{font-weight:800;min-width:15px;font-family:"Times New Roman",serif;font-style:italic;font-size:17px}.operator-pick{display:flex;gap:3px;flex:0 0 auto}.operator-pick button{min-width:34px;height:31px;padding:2px 5px;border:1px solid #d2dcee;border-radius:7px;background:white;color:#273755;font-weight:800;font-size:15px;touch-action:manipulation}.operator-pick button.active{background:#e8efff;border:2px solid #5578de;color:#243eaa}.ineq-row input{flex:1;min-width:60px;max-width:120px;height:32px;padding:4px 7px}
+
+/* 批改結果與詳解獨立滾動區 */
+.feedback-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;touch-action:pan-y}
+.result{padding:8px 10px;border-radius:9px;border:1px solid #cad6eb;background:#f7f9fe;line-height:1.45;font-size:13px;flex:0 0 auto}.result.success{background:#eaf8f1;border-color:#a2dcc2;color:#075739}.result.wrong{background:#fff0f0;border-color:#ffc0c0;color:#9a3030}.result.notice{background:#fff8e7;border-color:#ead5a1;color:#80551c}.result h3{font-size:14px;margin:0 0 3px}
+.solution{padding:9px 11px;background:#f8faff;border:1px solid #d7e1f7;border-radius:9px;color:#263652;font-size:14px;line-height:1.62;font-family:"Times New Roman","PingFang HK",serif;flex:0 0 auto}.solution .step{margin:6px 0;border-bottom:1px solid #e3eaf6;padding-bottom:5px}.solution .step:last-child{border:0}.solution b{color:#3452b0;font-family:system-ui,sans-serif}
+#solutionBox[hidden]{display:none!important}
+
+/* 獨立在最下方的「下一題」按鈕區 */
+.next-btn-bar{flex:0 0 auto;padding-top:6px;border-top:1px solid var(--edge);margin-top:auto;display:flex;align-items:center}
+.next-btn-bar[hidden]{display:none!important}
+.next-btn-bar .btn{width:100%;min-height:40px;font-size:15px;font-weight:800;justify-content:center;display:flex;align-items:center}
+
+.progress-card{padding:8px 11px;flex:0 0 auto}.progress-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.progress-card h2{font-size:13px;margin:0}.progressline{height:6px;border-radius:8px;background:#e8edfa;overflow:hidden;margin:5px 0}.progressfill{height:100%;background:var(--blue);width:0%;transition:width .25s}.mini{font-size:11px;color:var(--muted)}
+@media(max-width:960px){.top-controls{grid-template-columns:1fr;gap:5px}.controls{min-height:40px}}
 </style>
 </head>
 <body>
@@ -148,13 +166,13 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
    <div class="title-row">
     <h2>⌨️ 輸入答案</h2>
     <div style="display:flex;align-items:center;gap:6px">
-     <button type="button" class="btn" id="toggleInputBtn" style="min-height:26px;padding:3px 8px;font-size:11px" hidden>🔽 展開輸入區</button>
+     <button type="button" class="btn" id="toggleInputBtn" style="min-height:26px;padding:3px 8px;font-size:11px">🔼 收起輸入區</button>
      <span class="pill" id="answerModeBadge">作答區</span>
     </div>
    </div>
    <div id="collapsedBanner" class="collapsed-banner" hidden>
-    <span>已收起輸入鍵盤以便閱讀下方詳解步驟</span>
-    <button type="button" class="btn outline" id="expandBannerBtn" style="min-height:26px;padding:2px 8px;font-size:11px">展開輸入</button>
+    <span>已收起輸入鍵盤以便閱讀下方詳解</span>
+    <button type="button" class="btn outline" id="expandBannerBtn" style="min-height:25px;padding:2px 8px;font-size:11px">展開輸入</button>
    </div>
    <div id="inputAreaWrap" class="input-collapsible">
     <div id="varStripWrap" class="var-strip-wrap" hidden></div>
@@ -169,15 +187,19 @@ main{flex:1 1 auto;min-height:0;max-height:100%;width:100%;margin:0;padding:8px 
    </div>
    <div class="answer-actions">
     <button type="button" class="btn primary" id="checkBtn">核對答案</button>
-    <button type="button" class="btn green" id="nextBtn" hidden>下一題 →</button>
     <button type="button" class="btn outline" id="showStepsBtn">詳解步驟</button>
    </div>
-   <div id="resultBox" aria-live="polite"></div>
-   <div id="solutionBox" hidden></div>
+   <div class="feedback-scroll" id="feedbackScroll">
+    <div id="resultBox" aria-live="polite"></div>
+    <div id="solutionBox" hidden></div>
+   </div>
+   <div class="next-btn-bar" id="nextBtnBar" hidden>
+    <button type="button" class="btn green" id="nextBtn">下一題 →</button>
+   </div>
   </section>
   <section class="card progress-card">
-   <div class="progress-head"><h2>📊 練習進度</h2><button class="btn" id="resetStats" style="min-height:27px;padding:3px 7px;font-size:11px">重設</button></div>
-   <div id="topicStat" style="font-size:12px;font-weight:700;margin-top:5px">尚未有紀錄</div><div class="progressline"><div id="progressFill" class="progressfill"></div></div><div class="mini" id="progressText">答錯後按「下一題」會自動再出同一題型的新題目。</div>
+   <div class="progress-head"><h2>📊 練習進度</h2><button class="btn" id="resetStats" style="min-height:26px;padding:2px 7px;font-size:11px">重設</button></div>
+   <div id="topicStat" style="font-size:12px;font-weight:700;margin-top:4px">尚未有紀錄</div><div class="progressline"><div id="progressFill" class="progressfill"></div></div><div class="mini" id="progressText">答錯後按「下一題」會自動再出同一題型的新題目。</div>
   </section>
  </aside>
 </main>
@@ -219,7 +241,6 @@ function fmtNum(n) {
     return parts.join('.');
 }
 
-// 格式化多項式項：c 為係數，vHtml 為變數 HTML（如 "<i>x</i><sup>2</sup>"），isFirst 為是否首項
 function fmtTerm(c, vHtml, isFirst = false) {
     if (c === 0) return "";
     let absC = Math.abs(c);
@@ -257,7 +278,6 @@ function toPlainLinear(a, v1, b, v2 = "") {
     return p1 + p2 || "0";
 }
 
-// 選擇題亂序與包裝工具
 function makeMC(type, level, statement, correct, wrongs, steps, variantKey) {
     const arr = [correct], seen = new Set([correct]);
     for (const w of wrongs) {
@@ -431,7 +451,6 @@ function extractVarNames(s) {
 function areExpressionsEquivalent(userStr, targetStr) {
     const ast1 = parseAlgAST(userStr), ast2 = parseAlgAST(targetStr);
     if (!ast1 || !ast2) return false;
-    const vars = [...new Set([...extractVarNames(userStr), ...extractVarNames(targetStr)])];
     const testSets = [
         { a: 2.3, b: -1.7, c: 3.1, d: 1.9, e: 2.7, f: -1.3, h: 2.1, k: 3.4, m: -2.2, n: 1.8, p: 2.9, q: -1.4, r: 3.2, s: -2.6, t: 1.6, v: 2.4, w: -1.9, x: 2.6, y: -1.8, P: 120 },
         { a: -3.1, b: 2.4, c: -1.5, d: 2.8, e: -2.1, f: 3.3, h: -1.7, k: 2.2, m: 3.5, n: -2.7, p: -1.8, q: 2.9, r: -2.3, s: 1.7, t: -3.2, v: -1.6, w: 2.7, x: -3.3, y: 2.1, P: 250 },
@@ -681,7 +700,7 @@ function generateCh1_1(level) {
                     { sub: '', sol: `= [${a}(<i>${v}</i> − ${d}) ${sign} ${b}]<sup>2</sup>` },
                     { sub: '', sol: `= <b>${finalHtml}</b>` }
                 ],
-                ansCheck: [{ label: '因式分解結果', target: finalPlain, display: finalHtml }]
+                ansCheck: [{ label: '因式分解結果', target: finalPlain, display: ansHtml }]
             };
         }
     }
@@ -771,7 +790,6 @@ function generateCh1_2(level) {
                 ansCheck: [{ label: '因式分解結果', target: ansPlain, display: ansHtml }]
             };
         } else if (subType === 3) {
-            const v = 'x';
             const d = randomInt(1, 3);
             const m = randomInt(2, 4);
             const expr = `${m}<i>x</i><sup>2</sup> + ${2 * m - 1}<i>x</i>(<i>x</i> − ${d}) − 2(<i>x</i> − ${d})<sup>2</sup>`;
@@ -2166,16 +2184,22 @@ function refreshStats() {
     $('progressText').textContent = s.attempts ? '本課題正確率 ' + Math.round(s.correct * 100 / s.attempts) + '% · 共做 ' + s.attempts + ' 題' : '答錯後按「下一題」會自動再出同一題型的新題目。';
 }
 
+// 鎖定題目時保留當前 scrollTop 位置，不跳回頂端
 function setSheetLocked(locked) {
+    const savedScrollTop = sheet.scrollTop;
     $('lockSheet').checked = !!locked;
     sheet.classList.toggle('locked', !!locked);
     sheet.classList.toggle('expanded', !locked);
     sheet.classList.toggle('touch-draw', !$('penOnly').checked);
-    if (locked) sheet.scrollTop = 0;
-    requestAnimationFrame(() => { resizeCanvas(); repaint(); });
+    sheet.scrollTop = savedScrollTop;
+    requestAnimationFrame(() => {
+        sheet.scrollTop = savedScrollTop;
+        resizeCanvas();
+        repaint();
+    });
 }
 $('lockSheet').addEventListener('change', ev => setSheetLocked(ev.target.checked));
-$('penOnly').addEventListener('change', () => { sheet.classList.toggle('touch-draw', !$('penOnly').checked) });
+$('penOnly').addEventListener('change', () => { sheet.classList.toggle('touch-draw', !$('penOnly').checked); });
 
 function setInputCollapsed(collapsed) {
     inputAreaCollapsed = collapsed;
@@ -2350,7 +2374,7 @@ function newQuestion(sameTemplate = false) {
     if (!newQ) { $('resultBox').innerHTML = '<div class="result wrong">未能成功生成題目，請重試。</div>'; return; }
     q = newQ; number++; outcome = null; checker = prepareCheck(q); lastJudged = false;
     strokes = []; redoStack = []; drawing = null; drawingPointerId = null; lastFocusedAnswerInput = null;
-    sheet.scrollTop = 0;
+    sheet.scrollTop = 0; // 出新題時才回到頂端
 
     $('questionNum').textContent = number;
     $('topicLabel').textContent = labels[topic] || topic;
@@ -2372,7 +2396,7 @@ function newQuestion(sameTemplate = false) {
     $('solutionBox').hidden = true;
     $('solutionBox').innerHTML = '';
     $('showStepsBtn').textContent = '詳解步驟';
-    $('nextBtn').hidden = true;
+    $('nextBtnBar').hidden = true;
     $('checkBtn').disabled = false;
     requestAnimationFrame(() => { resizeCanvas(); repaint(); });
 
@@ -2495,7 +2519,9 @@ function finish(good) {
     const ref = refParts.join('； ');
 
     $('resultBox').innerHTML = `<div class="result ${good ? 'success' : 'wrong'}"><h3>${good ? '✅ 答案正確！' : '❌ 答案不正確'}</h3>${good ? '下一題會在所選範圍內隨機生成。' : '下一題會沿用此題型，換上新數字讓你再次挑戰。'}${ref ? `<div>參考答案：<b>${ref}</b></div>` : ''}</div>`;
-    showSolution(); $('checkBtn').disabled = true; $('nextBtn').hidden = false;
+    showSolution();
+    $('checkBtn').disabled = true;
+    $('nextBtnBar').hidden = false;
     $('nextBtn').textContent = good ? '下一題 · 隨機題型 →' : '下一題 · 同類題重練 →';
 }
 
@@ -2507,6 +2533,7 @@ $('checkBtn').addEventListener('click', judge);
 $('showStepsBtn').addEventListener('click', () => {
     if ($('solutionBox').hidden) {
         showSolution();
+        $('nextBtnBar').hidden = false;
     } else {
         $('solutionBox').hidden = true;
         setInputCollapsed(false);
@@ -2515,7 +2542,16 @@ $('showStepsBtn').addEventListener('click', () => {
 });
 $('resetStats').addEventListener('click', () => { if (confirm('確定清除本機的練習統計？')) { stats = {}; keepStats(); refreshStats(); } });
 
-// ==================== Apple Pencil 手寫畫布引擎 ====================
+// ==================== 全頁防拉動與 Apple Pencil 手寫畫布引擎 ====================
+// 防止整個網頁在 iPad Safari 被上下拉動回彈（只允許在已解鎖題目區、詳解滾動區及工具列內滑動）
+document.addEventListener('touchmove', ev => {
+    const allowVert = ev.target.closest('.sheet.expanded, .feedback-scroll, .answer-grid');
+    const allowHoriz = ev.target.closest('.toolbar');
+    if (!allowVert && !allowHoriz && ev.cancelable) {
+        ev.preventDefault();
+    }
+}, { passive: false });
+
 let drawingPointerId = null;
 function brushStyle(c, st) {
     c.lineCap = 'round'; c.lineJoin = 'round';
